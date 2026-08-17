@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MixVerse | MIXING SECRETS DECODED</title>
+  <title>MixVerse: Mixing Secrets Decoded | Live Sound Mixing Masterclass</title>
   <style>
     :root {
       --bg-dark: #0B0E14;
@@ -51,7 +51,7 @@
     }
 
     .brand-title {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -60,14 +60,14 @@
     }
 
     .brand-subtitle {
-      color: var(--text-sub);
-      font-size: 14px;
+      color: var(--accent-cyan);
+      font-size: 15px;
+      font-weight: 600;
       margin-bottom: 32px;
-      line-height: 1.5;
     }
 
     .section-header {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -192,66 +192,44 @@
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
     }
   </style>
+  <!-- Razorpay Checkout SDK -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
 <div class="form-card">
   <div class="header-bar"></div>
-  <h1 class="brand-title">MixVerse</h1>
-  <p class="brand-subtitle">Mixing Secrets Decoded — Live Sound Mixing Masterclass Registration</p>
+  <h1 class="brand-title">MixVerse: Mixing Secrets Decoded</h1>
+  <p class="brand-subtitle">Live Sound Mixing Masterclass - Sept26 edition</p>
 
   <form id="masterclassForm">
     
-    <!-- PURCHASER INFORMATION -->
-    <div class="section-header">Purchaser Information</div>
+    <!-- ATTENDEE INFORMATION -->
+    <div class="section-header">Attendee Information</div>
     <div class="grid-2">
       <div class="form-group">
         <label>First Name <span class="req">*</span></label>
-        <input type="text" id="purchaserFirstName" required placeholder="First name">
-      </div>
-      <div class="form-group">
-        <label>Last Name <span class="req">*</span></label>
-        <input type="text" id="purchaserLastName" required placeholder="Last name">
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Email <span class="req">*</span></label>
-        <input type="email" id="purchaserEmail" required placeholder="email@example.com">
-      </div>
-      <div class="form-group">
-        <label>Phone <span class="req">*</span></label>
-        <input type="tel" id="purchaserPhone" required placeholder="+91 9876543210">
-      </div>
-    </div>
-
-    <!-- ATTENDEE INFORMATION -->
-    <div class="section-header">Attendee Qualification & Gear Profile</div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Attendee First Name <span class="req">*</span></label>
         <input type="text" id="attendeeFirstName" required placeholder="First name">
       </div>
       <div class="form-group">
-        <label>Attendee Last Name <span class="req">*</span></label>
+        <label>Last Name <span class="req">*</span></label>
         <input type="text" id="attendeeLastName" required placeholder="Last name">
       </div>
     </div>
     <div class="grid-2">
       <div class="form-group">
-        <label>Attendee Email <span class="req">*</span></label>
+        <label>Email Address <span class="req">*</span></label>
         <input type="email" id="attendeeEmail" required placeholder="attendee@example.com">
       </div>
       <div class="form-group">
-        <label>Attendee Phone <span class="req">*</span></label>
+        <label>Phone Number (WhatsApp) <span class="req">*</span></label>
         <input type="tel" id="attendeePhone" required placeholder="+91 9876543210">
       </div>
     </div>
     <div class="grid-2">
       <div class="form-group">
-        <label>Company / Rental House</label>
-        <input type="text" id="company" placeholder="e.g. Sound Kraft / Freelance">
+        <label>Company / Rental House <span class="req">*</span></label>
+        <input type="text" id="company" required placeholder="e.g. Sound Kraft / Freelance">
       </div>
       <div class="form-group">
         <label>Designation / Role</label>
@@ -259,16 +237,21 @@
       </div>
     </div>
 
-    <!-- TECHNICAL QUESTIONNAIRE -->
     <div class="form-group">
-      <label>How did you hear about this workshop?</label>
-      <input type="text" id="source" placeholder="Social Media, Word of Mouth, Peer Recommendation">
+      <label>T-Shirt Size Requirement <span class="req">*</span></label>
+      <select id="tshirtSize" required>
+        <option value="" disabled selected>Select your T-Shirt size...</option>
+        <option value="S">Small (S)</option>
+        <option value="M">Medium (M)</option>
+        <option value="L">Large (L)</option>
+        <option value="XL">Extra Large (XL)</option>
+        <option value="2XL">Double Extra Large (2XL)</option>
+        <option value="3XL">Triple Extra Large (3XL)</option>
+      </select>
     </div>
 
-    <div class="form-group">
-      <label>What motivated you to enroll?</label>
-      <input type="text" id="motivation" placeholder="Key learning objectives or skills you wish to master">
-    </div>
+    <!-- TECHNICAL QUESTIONNAIRE -->
+    <div class="section-header">Technical Profile & Workshop Customization</div>
 
     <div class="grid-2">
       <div class="form-group">
@@ -288,6 +271,16 @@
           <label class="radio-label"><input type="radio" name="discipline" value="Both"> Both</label>
         </div>
       </div>
+    </div>
+
+    <div class="form-group">
+      <label>How did you hear about this workshop?</label>
+      <input type="text" id="source" placeholder="Social Media, Word of Mouth, Peer Recommendation">
+    </div>
+
+    <div class="form-group">
+      <label>What motivated you to enroll?</label>
+      <input type="text" id="motivation" placeholder="Key learning objectives or skills you wish to master">
     </div>
 
     <div class="form-group">
@@ -319,27 +312,35 @@
     <!-- BILLING ADDRESS -->
     <div class="section-header">Billing Address</div>
     <div class="form-group">
-      <label>Address Line 1</label>
-      <input type="text" id="billingAddress1" placeholder="Street address">
+      <label>Full Name / Company Name (for Invoice) <span class="req">*</span></label>
+      <input type="text" id="billingName" required placeholder="Name as required on tax invoice">
+    </div>
+    <div class="form-group">
+      <label>Address Line 1 <span class="req">*</span></label>
+      <input type="text" id="billingAddress1" required placeholder="Street address, P.O. box">
+    </div>
+    <div class="form-group">
+      <label>Address Line 2</label>
+      <input type="text" id="billingAddress2" placeholder="Apartment, suite, unit, building, floor">
     </div>
     <div class="grid-2">
       <div class="form-group">
-        <label>City</label>
-        <input type="text" id="billingCity" placeholder="City">
+        <label>City <span class="req">*</span></label>
+        <input type="text" id="billingCity" required placeholder="City">
       </div>
       <div class="form-group">
-        <label>State</label>
-        <input type="text" id="billingState" placeholder="State">
+        <label>State <span class="req">*</span></label>
+        <input type="text" id="billingState" required placeholder="State">
       </div>
     </div>
     <div class="grid-2">
       <div class="form-group">
-        <label>Zip Code</label>
-        <input type="text" id="billingZip" placeholder="Zip / Postal Code">
+        <label>Zip Code <span class="req">*</span></label>
+        <input type="text" id="billingZip" required placeholder="Zip / Postal Code">
       </div>
       <div class="form-group">
-        <label>Country</label>
-        <input type="text" id="billingCountry" value="India">
+        <label>Country <span class="req">*</span></label>
+        <input type="text" id="billingCountry" required value="India">
       </div>
     </div>
 
@@ -348,57 +349,53 @@
       <label for="dataConsent">I consent to the processing of my submitted data for event registration, seat allocation, and workshop communications. <span class="req">*</span></label>
     </div>
 
-    <button type="button" class="submit-btn" onclick="executeRegistration()">Pay & Reserve Seat</button>
+    <button type="button" class="submit-btn" onclick="executeRegistration()">Proceed to Payment</button>
   </form>
 </div>
 
 <script>
   // CONFIGURATION CONSTANTS
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-0FxeDwz2n6RKIKPRLobawfAb1XUEd4vjcGQcUIOpzsgZYq0P1b6crzU11DBM_71SmQ/exec";
-  const RAZORPAY_KEY_ID   = "Yrzp_live_XXyq3q864CLfdB"; // e.g. rzp_live_xxxxxxxxxxxx
+  const GOOGLE_SCRIPT_URL = "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+  const RAZORPAY_KEY_ID   = "YOUR_RAZORPAY_KEY_ID"; // Use rzp_test_... for testing, rzp_live_... for production
+
+  // PRICING MODE CONFIGURATION
+  // Set IS_TEST_MODE = true for ₹100 test mode.
+  // Set IS_TEST_MODE = false for production (₹15,999 + 18% GST = ₹18,878.82).
+  const IS_TEST_MODE = true; 
+
+  const PAYMENT_AMOUNT_PAISE = IS_TEST_MODE ? "10000" : "1887882"; // 10000 paise = ₹100 | 1887882 paise = ₹18,878.82
 
   function executeRegistration() {
     const form = document.getElementById('masterclassForm');
     
-    // Trigger standard browser validation checks
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
-    // Extract values
-    const purchaserFirstName = document.getElementById('purchaserFirstName').value;
-    const purchaserLastName  = document.getElementById('purchaserLastName').value;
-    const purchaserEmail     = document.getElementById('purchaserEmail').value;
-    const purchaserPhone     = document.getElementById('purchaserPhone').value;
-
-    const attendeeFirstName  = document.getElementById('attendeeFirstName').value;
-    const attendeeLastName   = document.getElementById('attendeeLastName').value;
-    const attendeeEmail      = document.getElementById('attendeeEmail').value;
-    const attendeePhone      = document.getElementById('attendeePhone').value;
+    const attendeeFirstName = document.getElementById('attendeeFirstName').value;
+    const attendeeLastName  = document.getElementById('attendeeLastName').value;
+    const attendeeEmail     = document.getElementById('attendeeEmail').value;
+    const attendeePhone     = document.getElementById('attendeePhone').value;
 
     const discipline = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
 
     const options = {
       "key": RAZORPAY_KEY_ID,
-      "amount": "2500000", // Amount in paise (₹25,000 INR)
+      "amount": PAYMENT_AMOUNT_PAISE,
       "currency": "INR",
       "name": "MixVerse",
-      "description": "Mixing Secrets Decoded Pass",
+      "description": "Live Sound Mixing Masterclass - Sept26",
       "handler": function (response) {
-        // Collect full payload for backend logging
         const payload = {
           payment_id: response.razorpay_payment_id,
-          purchaser_first_name: purchaserFirstName,
-          purchaser_last_name: purchaserLastName,
-          purchaser_email: purchaserEmail,
-          purchaser_phone: purchaserPhone,
           attendee_first_name: attendeeFirstName,
           attendee_last_name: attendeeLastName,
           attendee_email: attendeeEmail,
           attendee_phone: attendeePhone,
           company: document.getElementById('company').value,
           designation: document.getElementById('designation').value,
+          tshirt_size: document.getElementById('tshirtSize').value,
           source: document.getElementById('source').value,
           motivation: document.getElementById('motivation').value,
           experience_level: document.getElementById('experienceLevel').value,
@@ -408,23 +405,24 @@
           featured_gear: document.getElementById('featuredGear').value,
           favorite_artist: document.getElementById('favoriteArtist').value,
           current_roster: document.getElementById('currentRoster').value,
+          billing_name: document.getElementById('billingName').value,
           billing_address_1: document.getElementById('billingAddress1').value,
+          billing_address_2: document.getElementById('billingAddress2').value,
           billing_city: document.getElementById('billingCity').value,
           billing_state: document.getElementById('billingState').value,
           billing_zip: document.getElementById('billingZip').value,
           billing_country: document.getElementById('billingCountry').value,
-          amount: 2500000,
+          amount: parseInt(PAYMENT_AMOUNT_PAISE),
           status: "Captured"
         };
 
-        // Asynchronous post to Google Apps Script Sheet Webhook
         fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         }).then(() => {
-          alert("Registration Successful!\nPayment ID: " + response.razorpay_payment_id + "\n\nWelcome to MixVerse. Your delegate confirmation pass has been logged.");
+          alert("Registration Successful!\nPayment ID: " + response.razorpay_payment_id + "\n\nWelcome to MixVerse Sept26 Edition.");
           form.reset();
         }).catch(err => {
           console.error("Transmission Error:", err);
@@ -432,9 +430,9 @@
         });
       },
       "prefill": {
-        "name": purchaserFirstName + " " + purchaserLastName,
-        "email": purchaserEmail,
-        "contact": purchaserPhone
+        "name": attendeeFirstName + " " + attendeeLastName,
+        "email": attendeeEmail,
+        "contact": attendeePhone
       },
       "theme": {
         "color": "#00E5FF"
