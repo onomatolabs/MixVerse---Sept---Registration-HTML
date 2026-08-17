@@ -1,448 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MixVerse: Mixing Secrets Decoded | Live Sound Mixing Masterclass</title>
-  <style>
-    :root {
-      --bg-dark: #0B0E14;
-      --card-bg: #151A23;
-      --input-bg: #1A202C;
-      --accent-cyan: #00E5FF;
-      --accent-hover: #33EBFB;
-      --text-main: #F8FAFC;
-      --text-sub: #94A3B8;
-      --border-color: #2A3241;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding: 40px 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .form-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      max-width: 720px;
-      width: 100%;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    }
-
-    .header-bar {
-      height: 4px;
-      background-color: var(--accent-cyan);
-      border-radius: 2px;
-      margin-bottom: 24px;
-    }
-
-    .brand-title {
-      font-size: 26px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #FFFFFF;
-      margin-bottom: 6px;
-    }
-
-    .brand-subtitle {
-      color: var(--accent-cyan);
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 32px;
-    }
-
-    .section-header {
-      font-size: 15px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--accent-cyan);
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 8px;
-      margin: 28px 0 18px 0;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 600px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-sub);
-      margin-bottom: 6px;
-    }
-
-    label .req {
-      color: var(--accent-cyan);
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    select,
-    textarea {
-      width: 100%;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      color: #FFFFFF;
-      padding: 12px 14px;
-      font-size: 14px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 8px rgba(0, 229, 255, 0.25);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .radio-group {
-      display: flex;
-      gap: 20px;
-      padding-top: 6px;
-    }
-
-    .radio-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--text-main);
-      cursor: pointer;
-      text-transform: none;
-    }
-
-    input[type="radio"], input[type="checkbox"] {
-      accent-color: var(--accent-cyan);
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
-    .checkbox-container {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .checkbox-container label {
-      text-transform: none;
-      font-size: 13px;
-      color: var(--text-sub);
-      line-height: 1.4;
-      cursor: pointer;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background-color: var(--accent-cyan);
-      color: #0B0E14;
-      font-size: 15px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 24px;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .submit-btn:hover {
-      background-color: var(--accent-hover);
-      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-    }
-  </style>
-  <!-- Razorpay Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MixVerse — Mixing Secrets Decoded | Live Sound Workshop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="form-card">
-  <div class="header-bar"></div>
-  <h1 class="brand-title">MixVerse: Mixing Secrets Decoded</h1>
-  <p class="brand-subtitle">Live Sound Mixing Masterclass - Sept26 edition</p>
-
-  <form id="masterclassForm">
-    
-    <!-- ATTENDEE INFORMATION -->
-    <div class="section-header">Attendee Information</div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>First Name <span class="req">*</span></label>
-        <input type="text" id="attendeeFirstName" required placeholder="First name">
-      </div>
-      <div class="form-group">
-        <label>Last Name <span class="req">*</span></label>
-        <input type="text" id="attendeeLastName" required placeholder="Last name">
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Email Address <span class="req">*</span></label>
-        <input type="email" id="attendeeEmail" required placeholder="attendee@example.com">
-      </div>
-      <div class="form-group">
-        <label>Phone Number (WhatsApp) <span class="req">*</span></label>
-        <input type="tel" id="attendeePhone" required placeholder="+91 9876543210">
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Company / Rental House <span class="req">*</span></label>
-        <input type="text" id="company" required placeholder="e.g. Sound Kraft / Freelance">
-      </div>
-      <div class="form-group">
-        <label>Designation / Role</label>
-        <input type="text" id="designation" placeholder="e.g. FOH Engineer / System Tech">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>T-Shirt Size Requirement <span class="req">*</span></label>
-      <select id="tshirtSize" required>
-        <option value="" disabled selected>Select your T-Shirt size...</option>
-        <option value="S">Small (S)</option>
-        <option value="M">Medium (M)</option>
-        <option value="L">Large (L)</option>
-        <option value="XL">Extra Large (XL)</option>
-        <option value="2XL">Double Extra Large (2XL)</option>
-        <option value="3XL">Triple Extra Large (3XL)</option>
-      </select>
-    </div>
-
-    <!-- TECHNICAL QUESTIONNAIRE -->
-    <div class="section-header">Technical Profile & Workshop Customization</div>
-
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Live Sound Experience Level <span class="req">*</span></label>
-        <select id="experienceLevel" required>
-          <option value="" disabled selected>Select experience...</option>
-          <option value="Beginner / Audio Student">Beginner / Audio Student</option>
-          <option value="Intermediate (Club/Regional Tech)">Intermediate (Club / Regional Tech)</option>
-          <option value="Advanced (Touring FOH/Monitor Tech)">Advanced (Touring FOH / Monitor Tech)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>FOH, Monitors, or Both? <span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-label"><input type="radio" name="discipline" value="FOH" required> FOH</label>
-          <label class="radio-label"><input type="radio" name="discipline" value="Monitors"> Monitors</label>
-          <label class="radio-label"><input type="radio" name="discipline" value="Both"> Both</label>
+    <!-- Navigation Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="sponsor-tag">
+                PRESENTED BY <span class="sponsor-highlight">ONOMATO LABS</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#curriculum">Curriculum</a>
+                <a href="#pricing">Tickets</a>
+                <a href="#register" class="btn btn-outline-sm">Register</a>
+            </nav>
         </div>
-      </div>
-    </div>
+    </header>
 
-    <div class="form-group">
-      <label>How did you hear about this workshop?</label>
-      <input type="text" id="source" placeholder="Social Media, Word of Mouth, Peer Recommendation">
-    </div>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="brand-badge">LIVE SOUND MASTERCLASS</div>
+            <h1 class="hero-title">MIXVERSE</h1>
+            <p class="hero-tagline">MIXING SECRETS DECODED</p>
+            <p class="hero-description">
+                Master flagship digital consoles, dynamic processing, and system optimization from tour-tested veteran live sound engineers.
+            </p>
+            <div class="hero-actions">
+                <a href="#pricing" class="btn btn-primary">Reserve Your Seat</a>
+                <a href="#curriculum" class="btn btn-secondary">View 3-Day Agenda</a>
+            </div>
+        </div>
+    </section>
 
-    <div class="form-group">
-      <label>What motivated you to enroll?</label>
-      <input type="text" id="motivation" placeholder="Key learning objectives or skills you wish to master">
-    </div>
+    <!-- Key Topics / Overview -->
+    <section id="about" class="topics-section">
+        <div class="container">
+            <h2 class="section-title">CORE CURRICULUM</h2>
+            <div class="grid grid-4">
+                <div class="card topic-card">
+                    <div class="card-icon">01</div>
+                    <h3>Signal Flow & Gain Staging</h3>
+                    <p>Digital conversion, headroom management (dBFS vs. dBu), and proper channel gain structure across flagship consoles.</p>
+                </div>
+                <div class="card topic-card">
+                    <div class="card-icon">02</div>
+                    <h3>Channel Shaping & Dynamic Control</h3>
+                    <p>HPF strategies, frequency carving, dynamic EQ, and frequency-conscious gating for high-SPL environments.</p>
+                </div>
+                <div class="card topic-card">
+                    <div class="card-icon">03</div>
+                    <h3>Advanced Processing & Plugins</h3>
+                    <p>Subgrouping, DCAs, parallel compression, Waves SoundGrid integration, and latency management.</p>
+                </div>
+                <div class="card topic-card">
+                    <div class="card-icon">04</div>
+                    <h3>Immersive IEMs & Spatial FX</h3>
+                    <p>KLANG 360-degree binaural positioning, Haas delay time-alignment, and multi-track virtual soundcheck.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="form-group">
-      <label>Favorite Mixing Console & Ecosystem</label>
-      <input type="text" id="favoriteConsole" placeholder="e.g. DiGiCo SD/Quantum, Yamaha RIVAGE, Avid S6L, Allen & Heath dLive">
-    </div>
+    <!-- 3-Day Schedule Breakdown -->
+    <section id="curriculum" class="schedule-section">
+        <div class="container">
+            <h2 class="section-title">3-DAY WORKSHOP AGENDA</h2>
+            <div class="schedule-grid">
+                
+                <!-- Day 1 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <span class="day-label">DAY 1</span>
+                        <h3>Flagship Console Architecture</h3>
+                    </div>
+                    <ul class="session-list">
+                        <li>
+                            <span class="session-time">11:00 AM - 01:30 PM</span>
+                            <strong>Digital Gain Staging & Flagship Workflows</strong>
+                            <p>Headroom management (-18 dBFS targets) and channel routing on DiGiCo, Yamaha, Allen & Heath, and Avid consoles.</p>
+                        </li>
+                        <li>
+                            <span class="session-time">02:30 PM - 06:00 PM</span>
+                            <strong>Channel Shaping & Subtractive EQ</strong>
+                            <p>Clearing sub-bass clutter, frequency carving, and attack/release tuning on dynamic processors.</p>
+                        </li>
+                    </ul>
+                </div>
 
-    <div class="form-group">
-      <label>Topics / Subjects You Want Covered</label>
-      <textarea id="requestedTopics" placeholder="Gain staging, phase alignment, sidechaining, KLANG immersive IEMs, room tuning..."></textarea>
-    </div>
+                <!-- Day 2 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <span class="day-label">DAY 2</span>
+                        <h3>Advanced FOH Processing & Plugins</h3>
+                    </div>
+                    <ul class="session-list">
+                        <li>
+                            <span class="session-time">11:00 AM - 01:30 PM</span>
+                            <strong>Subgroups, DCAs & Sidechain Ducking</strong>
+                            <p>Parallel drum compression, DCA vs Group management, and frequency-selective sidechain ducking.</p>
+                        </li>
+                        <li>
+                            <span class="session-time">02:30 PM - 06:00 PM</span>
+                            <strong>Waves Integration & Arena FOH Strategy</strong>
+                            <p>SuperRack buffer optimization, primary source enhancers, and guest tour engineer Q&A.</p>
+                        </li>
+                    </ul>
+                </div>
 
-    <div class="form-group">
-      <label>Console or Gear You Wish to See Featured</label>
-      <input type="text" id="featuredGear" placeholder="e.g. Waves SoundGrid DSP, Lake Processing, KLANG:konductor">
-    </div>
+                <!-- Day 3 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <span class="day-label">DAY 3</span>
+                        <h3>Immersive Monitors & Spatial FX</h3>
+                    </div>
+                    <ul class="session-list">
+                        <li>
+                            <span class="session-time">11:00 AM - 01:30 PM</span>
+                            <strong>In-Ear Monitors & KLANG Technology</strong>
+                            <p>Reducing ear fatigue, 360-degree binaural positioning, and Dante integration.</p>
+                        </li>
+                        <li>
+                            <span class="session-time">02:30 PM - 06:00 PM</span>
+                            <strong>Hot-Seat Hands-On Mixing Session</strong>
+                            <p>Virtual soundcheck multi-track mixing with real-time mentor feedback on live console setups.</p>
+                        </li>
+                    </ul>
+                </div>
 
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Favorite Artist / Production Reference</label>
-        <input type="text" id="favoriteArtist" placeholder="Bollywood or International touring reference">
-      </div>
-      <div class="form-group">
-        <label>Current Artist or Rental Company Roster</label>
-        <input type="text" id="currentRoster" placeholder="Bands, artists, or audio vendors you currently work with">
-      </div>
-    </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- BILLING ADDRESS -->
-    <div class="section-header">Billing Address</div>
-    <div class="form-group">
-      <label>Full Name / Company Name (for Invoice) <span class="req">*</span></label>
-      <input type="text" id="billingName" required placeholder="Name as required on tax invoice">
-    </div>
-    <div class="form-group">
-      <label>Address Line 1 <span class="req">*</span></label>
-      <input type="text" id="billingAddress1" required placeholder="Street address, P.O. box">
-    </div>
-    <div class="form-group">
-      <label>Address Line 2</label>
-      <input type="text" id="billingAddress2" placeholder="Apartment, suite, unit, building, floor">
-    </div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>City <span class="req">*</span></label>
-        <input type="text" id="billingCity" required placeholder="City">
-      </div>
-      <div class="form-group">
-        <label>State <span class="req">*</span></label>
-        <input type="text" id="billingState" required placeholder="State">
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Zip Code <span class="req">*</span></label>
-        <input type="text" id="billingZip" required placeholder="Zip / Postal Code">
-      </div>
-      <div class="form-group">
-        <label>Country <span class="req">*</span></label>
-        <input type="text" id="billingCountry" required value="India">
-      </div>
-    </div>
+    <!-- Pricing / Registration Tiers -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2 class="section-title">RESERVE YOUR PASS</h2>
+            <div class="pricing-grid">
+                
+                <div class="card pricing-card">
+                    <div class="pricing-header">
+                        <h3>Early Bird Pass</h3>
+                        <div class="price">₹22,500</div>
+                        <span class="tier-limit">Limited to first 5 seats</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Full 3-Day Live Masterclass Access</li>
+                        <li>Console Hands-On Hot-Seat Access</li>
+                        <li>MixVerse Official Workbook & Cheat Sheets</li>
+                        <li>Goodies & Welcome Kit</li>
+                    </ul>
+                    <a href="#register" class="btn btn-secondary full-width">Claim Early Bird</a>
+                </div>
 
-    <div class="checkbox-container">
-      <input type="checkbox" id="dataConsent" required>
-      <label for="dataConsent">I consent to the processing of my submitted data for event registration, seat allocation, and workshop communications. <span class="req">*</span></label>
-    </div>
+                <div class="card pricing-card featured">
+                    <div class="featured-badge">MOST POPULAR</div>
+                    <div class="pricing-header">
+                        <h3>Standard Pass</h3>
+                        <div class="price">₹25,000</div>
+                        <span class="tier-limit">General Admission</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Full 3-Day Live Masterclass Access</li>
+                        <li>Console Hands-On Hot-Seat Access</li>
+                        <li>MixVerse Official Workbook & Cheat Sheets</li>
+                        <li>Goodies & Welcome Kit</li>
+                        <li>Certificate of Completion</li>
+                    </ul>
+                    <a href="#register" class="btn btn-primary full-width">Register Now</a>
+                </div>
 
-    <button type="button" class="submit-btn" onclick="executeRegistration()">Proceed to Payment</button>
-  </form>
-</div>
+            </div>
+        </div>
+    </section>
 
-<script>
-  // CONFIGURATION CONSTANTS
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKgQu_l-yck-CuZcNzvSwDzd8Hy-TcMKsLJ-BgM_iuwEkf9K9tz7rXnoI7kCivQEX1dQ/exec";
-  const RAZORPAY_KEY_ID   = "rzp_live_XXyq3q864CLfdB"; // Use rzp_test_... for testing, rzp_live_... for production, Live Key - rzp_live_XXyq3q864CLfdB  Test Key - rzp_test_TQwDpUhVWvo5dt
+    <!-- Registration CTA Block -->
+    <section id="register" class="cta-section">
+        <div class="container cta-box">
+            <h2>Ready to Decode Live Mixing?</h2>
+            <p>Join us for 3 days of intensive, hands-on live sound reinforcement training.</p>
+            <div class="cta-actions">
+                <a href="https://forms.google.com" target="_blank" class="btn btn-primary btn-large">Open Registration Form</a>
+            </div>
+        </div>
+    </section>
 
-  // PRICING MODE CONFIGURATION
-  // Set IS_TEST_MODE = true for ₹100 test mode.
-  // Set IS_TEST_MODE = false for production (₹15,999 + 18% GST = ₹18,878.82).
-  const IS_TEST_MODE = true; 
-
-  const PAYMENT_AMOUNT_PAISE = IS_TEST_MODE ? "10000" : "1887882"; // 10000 paise = ₹100 | 1887882 paise = ₹18,878.82
-
-  function executeRegistration() {
-    const form = document.getElementById('masterclassForm');
-    
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    const attendeeFirstName = document.getElementById('attendeeFirstName').value;
-    const attendeeLastName  = document.getElementById('attendeeLastName').value;
-    const attendeeEmail     = document.getElementById('attendeeEmail').value;
-    const attendeePhone     = document.getElementById('attendeePhone').value;
-
-    const discipline = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
-
-    const options = {
-      "key": RAZORPAY_KEY_ID,
-      "amount": PAYMENT_AMOUNT_PAISE,
-      "currency": "INR",
-      "name": "MixVerse",
-      "description": "Live Sound Mixing Masterclass - Sept26",
-      "handler": function (response) {
-        const payload = {
-          payment_id: response.razorpay_payment_id,
-          attendee_first_name: attendeeFirstName,
-          attendee_last_name: attendeeLastName,
-          attendee_email: attendeeEmail,
-          attendee_phone: attendeePhone,
-          company: document.getElementById('company').value,
-          designation: document.getElementById('designation').value,
-          tshirt_size: document.getElementById('tshirtSize').value,
-          source: document.getElementById('source').value,
-          motivation: document.getElementById('motivation').value,
-          experience_level: document.getElementById('experienceLevel').value,
-          discipline: discipline,
-          favorite_console: document.getElementById('favoriteConsole').value,
-          requested_topics: document.getElementById('requestedTopics').value,
-          featured_gear: document.getElementById('featuredGear').value,
-          favorite_artist: document.getElementById('favoriteArtist').value,
-          current_roster: document.getElementById('currentRoster').value,
-          billing_name: document.getElementById('billingName').value,
-          billing_address_1: document.getElementById('billingAddress1').value,
-          billing_address_2: document.getElementById('billingAddress2').value,
-          billing_city: document.getElementById('billingCity').value,
-          billing_state: document.getElementById('billingState').value,
-          billing_zip: document.getElementById('billingZip').value,
-          billing_country: document.getElementById('billingCountry').value,
-          amount: parseInt(PAYMENT_AMOUNT_PAISE),
-          status: "Captured"
-        };
-
-        fetch(GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        }).then(() => {
-          alert("Registration Successful!\nPayment ID: " + response.razorpay_payment_id + "\n\nWelcome to MixVerse Sept26 Edition.");
-          form.reset();
-        }).catch(err => {
-          console.error("Transmission Error:", err);
-          alert("Payment verified, but logging failed. Please save your Payment ID: " + response.razorpay_payment_id);
-        });
-      },
-      "prefill": {
-        "name": attendeeFirstName + " " + attendeeLastName,
-        "email": attendeeEmail,
-        "contact": attendeePhone
-      },
-      "theme": {
-        "color": "#00E5FF"
-      }
-    };
-
-    const rzp = new Razorpay(options);
-    rzp.open();
-  }
-</script>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 MixVerse Audio Academy. Sponsored by <strong>ONOMATO LABS</strong>.</p>
+            <p class="footer-sub">Live Sound Reinforcement | FOH & Monitor Engineering Masterclass</p>
+        </div>
+    </footer>
 
 </body>
 </html>
