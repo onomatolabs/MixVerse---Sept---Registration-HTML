@@ -1,422 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MixVerse — Registration | Mixing Secrets Decoded</title>
-    
-    <!-- Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixVerse: Mixing Secrets Decoded | Live Sound Mixing Masterclass</title>
+  <style>
+    :root {
+      --bg-dark: #0B0E14;
+      --card-bg: #151A23;
+      --input-bg: #1A202C;
+      --accent-cyan: #00E5FF;
+      --accent-hover: #33EBFB;
+      --text-main: #F8FAFC;
+      --text-sub: #94A3B8;
+      --border-color: #2A3241;
+    }
 
-    <!-- External SDKs -->
-    <!-- Razorpay Standard Checkout SDK -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    
-    <!-- Google Maps Places API for Location Auto-complete (Replace YOUR_GOOGLE_MAPS_API_KEY) -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&async=defer"></script>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <style>
-        /* ============================================================
-           MIXVERSE x ONOMATO LABS — CONSOLE DARK INDUSTRIAL THEME
-           ============================================================ */
-        :root {
-            --bg-main: #0b0e14;
-            --bg-card: #151a23;
-            --bg-input: #0b0e14;
-            --accent-cyan: #00e5ff;
-            --accent-cyan-hover: #33ebfb;
-            --text-primary: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: #2a3241;
-            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    .form-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      max-width: 720px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-            line-height: 1.5;
-        }
+    .header-bar {
+      height: 4px;
+      background-color: var(--accent-cyan);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
 
-        .form-container {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            max-width: 760px;
-            width: 100%;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-        }
+    .brand-title {
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
 
-        /* Header */
-        .form-header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 24px;
-            margin-bottom: 32px;
-            text-align: center;
-        }
+    .brand-subtitle {
+      color: var(--accent-cyan);
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
 
-        .sponsor-tag {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
+    /* Event Details Box */
+    .event-info-box {
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent-cyan);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 14px;
+    }
 
-        .sponsor-tag .highlight {
-            color: var(--accent-cyan);
-            font-weight: 700;
-        }
+    .info-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
 
-        .form-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--text-primary);
-            text-transform: uppercase;
-        }
+    .info-label {
+      color: var(--accent-cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      min-width: 80px;
+    }
 
-        .form-subtitle {
-            font-size: 0.95rem;
-            color: var(--accent-cyan);
-            margin-top: 4px;
-            font-weight: 600;
-        }
+    .info-value {
+      color: var(--text-main);
+    }
 
-        /* Form Layout */
-        .form-section {
-            margin-bottom: 32px;
-        }
+    .location-link {
+      color: var(--accent-cyan);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
 
-        .section-label {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 8px;
-            letter-spacing: 1px;
-        }
+    .location-link:hover {
+      color: var(--accent-hover);
+    }
 
-        .input-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
+    .section-header {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-cyan);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin: 28px 0 18px 0;
+    }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
 
-        .input-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
 
-        /* Input Controls */
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        select,
-        textarea {
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            padding: 12px 14px;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
+    .form-group {
+      margin-bottom: 18px;
+    }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
-        }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
 
-        select {
-            cursor: pointer;
-        }
+    label .req {
+      color: var(--accent-cyan);
+    }
 
-        textarea {
-            resize: vertical;
-        }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: #FFFFFF;
+      padding: 12px 14px;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-        /* Checkbox & Radio Grids */
-        .checkbox-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 10px;
-        }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 8px rgba(0, 229, 255, 0.25);
+    }
 
-        .checkbox-card, .radio-card {
-            display: flex;
-            align-items: center;
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-color);
-            padding: 10px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: border-color 0.2s ease;
-        }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
 
-        .checkbox-card:hover, .radio-card:hover {
-            border-color: var(--accent-cyan);
-        }
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      padding-top: 6px;
+    }
 
-        .checkbox-card input, .radio-card input {
-            accent-color: var(--accent-cyan);
-            margin-right: 10px;
-        }
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-main);
+      cursor: pointer;
+      text-transform: none;
+    }
 
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    input[type="radio"], input[type="checkbox"] {
+      accent-color: var(--accent-cyan);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
 
-        /* Buttons & Actions */
-        .form-actions {
-            text-align: center;
-            margin-top: 30px;
-        }
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-        .btn-submit {
-            width: 100%;
-            background-color: var(--accent-cyan);
-            color: var(--bg-main);
-            border: none;
-            border-radius: 6px;
-            padding: 16px;
-            font-size: 1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, box-shadow 0.2s ease;
-        }
+    .checkbox-container label {
+      text-transform: none;
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.4;
+      cursor: pointer;
+    }
 
-        .btn-submit:hover {
-            background-color: var(--accent-cyan-hover);
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.4);
-        }
+    .submit-btn {
+      width: 100%;
+      background-color: var(--accent-cyan);
+      color: #0B0E14;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: all 0.2s ease-in-out;
+    }
 
-        .security-note {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 12px;
-            font-family: var(--font-mono);
-        }
-
-        @media (max-width: 600px) {
-            .input-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-container {
-                padding: 24px 16px;
-            }
-        }
-    </style>
+    .submit-btn:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+  </style>
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
-    <section class="form-container">
-        <div class="form-header">
-            <div class="sponsor-tag">PRESENTED BY <span class="highlight">ONOMATO LABS</span></div>
-            <h1 class="form-title">MIXVERSE REGISTRATION</h1>
-            <p class="form-subtitle">Mixing Secrets Decoded — Live Sound Masterclass</p>
+<div class="form-card">
+  <div class="header-bar"></div>
+  <h1 class="brand-title">MixVerse: Mixing Secrets Decoded</h1>
+  <p class="brand-subtitle">Live Sound Mixing Masterclass</p>
+
+  <!-- EVENT DETAILS HEADER -->
+  <div class="event-info-box">
+    <div class="info-row">
+      <span class="info-label">Duration:</span>
+      <span class="info-value">3 Days Masterclass (Sept 7th to 9th)</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Location:</span>
+      <span class="info-value">
+        <a href="https://share.google/uX2ApJbX1GmsYg7ZU" target="_blank" rel="noopener noreferrer" class="location-link">
+          The Sumba, Ahmedabad
+        </a>
+      </span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Pass Fee:</span>
+      <span class="info-value">₹15,999 + 18% GST (Total: ₹18,878.82)</span>
+    </div>
+  </div>
+
+  <form id="masterclassForm">
+    
+    <!-- ATTENDEE INFORMATION -->
+    <div class="section-header">Attendee Information</div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" id="attendeeFirstName" required placeholder="First name">
+      </div>
+      <div class="form-group">
+        <label>Last Name <span class="req">*</span></label>
+        <input type="text" id="attendeeLastName" required placeholder="Last name">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="attendeeEmail" required placeholder="attendee@example.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number (WhatsApp) <span class="req">*</span></label>
+        <input type="tel" id="attendeePhone" required placeholder="+91 9876543210">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Company / Rental House <span class="req">*</span></label>
+        <input type="text" id="company" required placeholder="e.g. Sound Kraft / Freelance">
+      </div>
+      <div class="form-group">
+        <label>Designation / Role</label>
+        <input type="text" id="designation" placeholder="e.g. FOH Engineer / System Tech">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>T-Shirt Size Requirement <span class="req">*</span></label>
+      <select id="tshirtSize" required>
+        <option value="" disabled selected>Select your T-Shirt size...</option>
+        <option value="S">Small (S)</option>
+        <option value="M">Medium (M)</option>
+        <option value="L">Large (L)</option>
+        <option value="XL">Extra Large (XL)</option>
+        <option value="2XL">Double Extra Large (2XL)</option>
+        <option value="3XL">Triple Extra Large (3XL)</option>
+      </select>
+    </div>
+
+    <!-- TECHNICAL QUESTIONNAIRE -->
+    <div class="section-header">Technical Profile & Workshop Customization</div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Live Sound Experience Level <span class="req">*</span></label>
+        <select id="experienceLevel" required>
+          <option value="" disabled selected>Select experience...</option>
+          <option value="Beginner / Audio Student">Beginner / Audio Student</option>
+          <option value="Intermediate (Club/Regional Tech)">Intermediate (Club / Regional Tech)</option>
+          <option value="Advanced (Touring FOH/Monitor Tech)">Advanced (Touring FOH / Monitor Tech)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>FOH, Monitors, or Both? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-label"><input type="radio" name="discipline" value="FOH" required> FOH</label>
+          <label class="radio-label"><input type="radio" name="discipline" value="Monitors"> Monitors</label>
+          <label class="radio-label"><input type="radio" name="discipline" value="Both"> Both</label>
         </div>
+      </div>
+    </div>
 
-        <form id="mixverseForm" onsubmit="handleRegistration(event)" class="registration-form">
-            
-            <!-- Personal Details -->
-            <div class="form-section">
-                <h2 class="section-label">01. Personal Details</h2>
-                
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label for="fullname">Full Name *</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="John Doe" required>
-                    </div>
+    <div class="form-group">
+      <label>How did you hear about this workshop?</label>
+      <input type="text" id="source" placeholder="Social Media, Word of Mouth, Peer Recommendation">
+    </div>
 
-                    <div class="input-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" placeholder="john@domain.com" required>
-                    </div>
-                </div>
+    <div class="form-group">
+      <label>What motivated you to enroll?</label>
+      <input type="text" id="motivation" placeholder="Key learning objectives or skills you wish to master">
+    </div>
 
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label for="phone">Phone / WhatsApp Number *</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required>
-                    </div>
+    <div class="form-group">
+      <label>Favorite Mixing Console & Ecosystem</label>
+      <input type="text" id="favoriteConsole" placeholder="e.g. DiGiCo SD/Quantum, Yamaha RIVAGE, Avid S6L, Allen & Heath dLive">
+    </div>
 
-                    <div class="input-group">
-                        <label for="city">City / Base Location *</label>
-                        <input type="text" id="city" name="city" placeholder="Search city or location..." required>
-                    </div>
-                </div>
-            </div>
+    <div class="form-group">
+      <label>Topics / Subjects You Want Covered</label>
+      <textarea id="requestedTopics" placeholder="Gain staging, phase alignment, sidechaining, KLANG immersive IEMs, room tuning..."></textarea>
+    </div>
 
-            <!-- Qualification & Audio Background -->
-            <div class="form-section">
-                <h2 class="section-label">02. Audio Background & Qualification</h2>
+    <div class="form-group">
+      <label>Console or Gear You Wish to See Featured</label>
+      <input type="text" id="featuredGear" placeholder="e.g. Waves SoundGrid DSP, Lake Processing, KLANG:konductor">
+    </div>
 
-                <div class="input-group">
-                    <label for="role">Current Primary Role *</label>
-                    <select id="role" name="role" required>
-                        <option value="" disabled selected>Select your current profile...</option>
-                        <option value="freelance-mix-engineer">Freelance Mix Engineer (FOH/Monitors)</option>
-                        <option value="system-tech">System Engineer / System Tech</option>
-                        <option value="rental-staff">Rental Company Staff / Crew</option>
-                        <option value="audio-student">Audio Student / Aspirant</option>
-                        <option value="studio-engineer">Studio Engineer transitioning to Live</option>
-                    </select>
-                </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Favorite Artist / Production Reference</label>
+        <input type="text" id="favoriteArtist" placeholder="Bollywood or International touring reference">
+      </div>
+      <div class="form-group">
+        <label>Current Artist or Rental Company Roster</label>
+        <input type="text" id="currentRoster" placeholder="Bands, artists, or audio vendors you currently work with">
+      </div>
+    </div>
 
-                <div class="input-group">
-                    <label>Primary Console Ecosystem(s) Used *</label>
-                    <div class="checkbox-grid">
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="consoles" value="DiGiCo">
-                            <span>DiGiCo</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="consoles" value="Yamaha">
-                            <span>Yamaha (CL/QL/RIVAGE)</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="consoles" value="Allen & Heath">
-                            <span>Allen & Heath (SQ/dLive)</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="consoles" value="Avid">
-                            <span>Avid (VENUE/S6L)</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="consoles" value="Waves LV1">
-                            <span>Waves LV1 / SuperRack</span>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="consoles" value="Analog/Compact Digital">
-                            <span>Compact Digital / Analog</span>
-                        </label>
-                    </div>
-                </div>
+    <!-- BILLING ADDRESS -->
+    <div class="section-header">Billing Address</div>
+    <div class="form-group">
+      <label>Full Name / Company Name (for Invoice) <span class="req">*</span></label>
+      <input type="text" id="billingName" required placeholder="Name as required on tax invoice">
+    </div>
+    <div class="form-group">
+      <label>Address Line 1 <span class="req">*</span></label>
+      <input type="text" id="billingAddress1" required placeholder="Street address, P.O. box">
+    </div>
+    <div class="form-group">
+      <label>Address Line 2</label>
+      <input type="text" id="billingAddress2" placeholder="Apartment, suite, unit, building, floor">
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>City <span class="req">*</span></label>
+        <input type="text" id="billingCity" required placeholder="City">
+      </div>
+      <div class="form-group">
+        <label>State <span class="req">*</span></label>
+        <input type="text" id="billingState" required placeholder="State">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Zip Code <span class="req">*</span></label>
+        <input type="text" id="billingZip" required placeholder="Zip / Postal Code">
+      </div>
+      <div class="form-group">
+        <label>Country <span class="req">*</span></label>
+        <input type="text" id="billingCountry" required value="India">
+      </div>
+    </div>
 
-                <div class="input-group">
-                    <label>Have you mixed on In-Ear Monitors (IEMs) or Immersive Systems (e.g. KLANG)? *</label>
-                    <div class="radio-group">
-                        <label class="radio-card">
-                            <input type="radio" name="iem_experience" value="Yes" required>
-                            <span>Yes, extensively</span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="iem_experience" value="Basic">
-                            <span>Basic knowledge / Limited exposure</span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="iem_experience" value="No">
-                            <span>No, looking to learn</span>
-                        </label>
-                    </div>
-                </div>
+    <div class="checkbox-container">
+      <input type="checkbox" id="dataConsent" required>
+      <label for="dataConsent">I consent to the processing of my submitted data for event registration, seat allocation, and workshop communications. <span class="req">*</span></label>
+    </div>
 
-                <div class="input-group">
-                    <label for="pass_tier">Select Ticket Tier *</label>
-                    <select id="pass_tier" name="pass_tier" required>
-                        <option value="2250000">Early Bird Pass — ₹22,500 (Limited Seats)</option>
-                        <option value="2500000">Standard Delegate Pass — ₹25,000</option>
-                    </select>
-                </div>
+    <button type="button" class="submit-btn" onclick="executeRegistration()">Proceed to Payment</button>
+  </form>
+</div>
 
-                <div class="input-group">
-                    <label for="goals">Primary Goal for Attending *</label>
-                    <textarea id="goals" name="goals" rows="3" placeholder="What specific mix challenge or console workflow do you want to master during this workshop?" required></textarea>
-                </div>
-            </div>
+<script>
+  // CONFIGURATION CONSTANTS
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKgQu_l-yck-CuZcNzvSwDzd8Hy-TcMKsLJ-BgM_iuwEkf9K9tz7rXnoI7kCivQEX1dQ/exec";
+  const RAZORPAY_KEY_ID   = "rzp_live_XXyq3q864CLfdB"; // Use rzp_test_... for testing, rzp_live_... for production
 
-            <!-- Submit Action -->
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">Proceed to Secure Checkout</button>
-                <p class="security-note">🔒 Payments handled securely via Razorpay API.</p>
-            </div>
+  // PRICING MODE CONFIGURATION
+  // Set IS_TEST_MODE = true for ₹100 test mode.
+  // Set IS_TEST_MODE = false for production (₹15,999 + 18% GST = ₹18,878.82).
+  const IS_TEST_MODE = false; 
 
-        </form>
-    </section>
+  const PAYMENT_AMOUNT_PAISE = IS_TEST_MODE ? "10000" : "1887882"; // 10000 paise = ₹100 | 1887882 paise = ₹18,878.82 (₹15,999 + 18% GST)
 
-    <!-- Client-Side API Scripts -->
-    <script>
-        // 1. Google Places Autocomplete Initialization
-        window.addEventListener('load', function() {
-            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                const cityInput = document.getElementById('city');
-                new google.maps.places.Autocomplete(cityInput, { types: ['(cities)'] });
-            }
+  function executeRegistration() {
+    const form = document.getElementById('masterclassForm');
+    
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const attendeeFirstName = document.getElementById('attendeeFirstName').value;
+    const attendeeLastName  = document.getElementById('attendeeLastName').value;
+    const attendeeEmail     = document.getElementById('attendeeEmail').value;
+    const attendeePhone     = document.getElementById('attendeePhone').value;
+
+    const discipline = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
+
+    const options = {
+      "key": RAZORPAY_KEY_ID,
+      "amount": PAYMENT_AMOUNT_PAISE,
+      "currency": "INR",
+      "name": "MixVerse",
+      "description": "Live Sound Mixing Masterclass - Sept 7-9",
+      "handler": function (response) {
+        const payload = {
+          payment_id: response.razorpay_payment_id,
+          attendee_first_name: attendeeFirstName,
+          attendee_last_name: attendeeLastName,
+          attendee_email: attendeeEmail,
+          attendee_phone: attendeePhone,
+          company: document.getElementById('company').value,
+          designation: document.getElementById('designation').value,
+          tshirt_size: document.getElementById('tshirtSize').value,
+          source: document.getElementById('source').value,
+          motivation: document.getElementById('motivation').value,
+          experience_level: document.getElementById('experienceLevel').value,
+          discipline: discipline,
+          favorite_console: document.getElementById('favoriteConsole').value,
+          requested_topics: document.getElementById('requestedTopics').value,
+          featured_gear: document.getElementById('featuredGear').value,
+          favorite_artist: document.getElementById('favoriteArtist').value,
+          current_roster: document.getElementById('currentRoster').value,
+          billing_name: document.getElementById('billingName').value,
+          billing_address_1: document.getElementById('billingAddress1').value,
+          billing_address_2: document.getElementById('billingAddress2').value,
+          billing_city: document.getElementById('billingCity').value,
+          billing_state: document.getElementById('billingState').value,
+          billing_zip: document.getElementById('billingZip').value,
+          billing_country: document.getElementById('billingCountry').value,
+          amount: parseInt(PAYMENT_AMOUNT_PAISE),
+          status: "Captured"
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }).then(() => {
+          alert("Registration Successful!\nPayment ID: " + response.razorpay_payment_id + "\n\nSee you at MixVerse Masterclass in Ahmedabad!");
+          form.reset();
+        }).catch(err => {
+          console.error("Transmission Error:", err);
+          alert("Payment verified, but logging failed. Please save your Payment ID: " + response.razorpay_payment_id);
         });
+      },
+      "prefill": {
+        "name": attendeeFirstName + " " + attendeeLastName,
+        "email": attendeeEmail,
+        "contact": attendeePhone
+      },
+      "theme": {
+        "color": "#00E5FF"
+      }
+    };
 
-        // 2. Razorpay API Payment Handler
-        function handleRegistration(event) {
-            event.preventDefault();
+    const rzp = new Razorpay(options);
+    rzp.open();
+  }
+</script>
 
-            const name = document.getElementById('fullname').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const amountInPaise = document.getElementById('pass_tier').value;
-
-            // Replace with your actual Razorpay Key ID from your dashboard
-            const RAZORPAY_KEY_ID = "rzp_test_YOUR_KEY_HERE"; 
-
-            const options = {
-                "key": RAZORPAY_KEY_ID,
-                "amount": amountInPaise,
-                "currency": "INR",
-                "name": "MixVerse Audio Academy",
-                "description": "Mixing Secrets Decoded Pass",
-                "handler": function (response) {
-                    alert("Registration & Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
-                },
-                "prefill": {
-                    "name": name,
-                    "email": email,
-                    "contact": phone
-                },
-                "theme": {
-                    "color": "#00e5ff"
-                }
-            };
-
-            const rzp = new Razorpay(options);
-            rzp.on('payment.failed', function (response) {
-                alert("Payment Failed: " + response.error.description);
-            });
-
-            rzp.open();
-        }
-    </script>
 </body>
 </html>
