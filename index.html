@@ -3,11 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MixVerse Registration | Mixing Secrets Decoded</title>
-    <link rel="stylesheet" href="form-style.css">
+    <title>MixVerse — Registration | Mixing Secrets Decoded</title>
+    
+    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- External SDKs -->
+    <!-- Razorpay Standard Checkout SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <!-- Google Maps Places API for Location Auto-complete (Replace YOUR_GOOGLE_MAPS_API_KEY) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&async=defer"></script>
+
+    <style>
+        /* ============================================================
+           MIXVERSE x ONOMATO LABS — CONSOLE DARK INDUSTRIAL THEME
+           ============================================================ */
+        :root {
+            --bg-main: #0b0e14;
+            --bg-card: #151a23;
+            --bg-input: #0b0e14;
+            --accent-cyan: #00e5ff;
+            --accent-cyan-hover: #33ebfb;
+            --text-primary: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color: #2a3241;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .form-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            max-width: 760px;
+            width: 100%;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Header */
+        .form-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .sponsor-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .sponsor-tag .highlight {
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .form-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .form-subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* Form Layout */
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        /* Input Controls */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            padding: 12px 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* Checkbox & Radio Grids */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+        }
+
+        .checkbox-card, .radio-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .checkbox-card:hover, .radio-card:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .checkbox-card input, .radio-card input {
+            accent-color: var(--accent-cyan);
+            margin-right: 10px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Buttons & Actions */
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--accent-cyan);
+            color: var(--bg-main);
+            border: none;
+            border-radius: 6px;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-cyan-hover);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.4);
+        }
+
+        .security-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-family: var(--font-mono);
+        }
+
+        @media (max-width: 600px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-container {
+                padding: 24px 16px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -18,9 +251,9 @@
             <p class="form-subtitle">Mixing Secrets Decoded — Live Sound Masterclass</p>
         </div>
 
-        <form id="mixverse-registration" action="#" method="POST" class="registration-form">
+        <form id="mixverseForm" onsubmit="handleRegistration(event)" class="registration-form">
             
-            <!-- Personal Information -->
+            <!-- Personal Details -->
             <div class="form-section">
                 <h2 class="section-label">01. Personal Details</h2>
                 
@@ -44,16 +277,15 @@
 
                     <div class="input-group">
                         <label for="city">City / Base Location *</label>
-                        <input type="text" id="city" name="city" placeholder="e.g. Ahmedabad, Mumbai" required>
+                        <input type="text" id="city" name="city" placeholder="Search city or location..." required>
                     </div>
                 </div>
             </div>
 
-            <!-- Qualification & Technical Background -->
+            <!-- Qualification & Audio Background -->
             <div class="form-section">
-                <h2 class="section-label">02. Audio Background & Experience</h2>
+                <h2 class="section-label">02. Audio Background & Qualification</h2>
 
-                <!-- Current Role Dropdown -->
                 <div class="input-group">
                     <label for="role">Current Primary Role *</label>
                     <select id="role" name="role" required>
@@ -66,7 +298,6 @@
                     </select>
                 </div>
 
-                <!-- Console Checkboxes -->
                 <div class="input-group">
                     <label>Primary Console Ecosystem(s) Used *</label>
                     <div class="checkbox-grid">
@@ -97,7 +328,6 @@
                     </div>
                 </div>
 
-                <!-- IEM / Immersive Experience Radio -->
                 <div class="input-group">
                     <label>Have you mixed on In-Ear Monitors (IEMs) or Immersive Systems (e.g. KLANG)? *</label>
                     <div class="radio-group">
@@ -116,19 +346,17 @@
                     </div>
                 </div>
 
-                <!-- Pass Tier Selection -->
                 <div class="input-group">
                     <label for="pass_tier">Select Ticket Tier *</label>
                     <select id="pass_tier" name="pass_tier" required>
-                        <option value="early_bird">Early Bird Pass — ₹22,500 (Limited Seats)</option>
-                        <option value="standard">Standard Delegate Pass — ₹25,000</option>
+                        <option value="2250000">Early Bird Pass — ₹22,500 (Limited Seats)</option>
+                        <option value="2500000">Standard Delegate Pass — ₹25,000</option>
                     </select>
                 </div>
 
-                <!-- Primary Goal Textarea -->
                 <div class="input-group">
                     <label for="goals">Primary Goal for Attending *</label>
-                    <textarea id="goals" name="goals" rows="4" placeholder="What specific mix challenge or console workflow do you want to master during this workshop?" required></textarea>
+                    <textarea id="goals" name="goals" rows="3" placeholder="What specific mix challenge or console workflow do you want to master during this workshop?" required></textarea>
                 </div>
             </div>
 
@@ -141,5 +369,54 @@
         </form>
     </section>
 
+    <!-- Client-Side API Scripts -->
+    <script>
+        // 1. Google Places Autocomplete Initialization
+        window.addEventListener('load', function() {
+            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                const cityInput = document.getElementById('city');
+                new google.maps.places.Autocomplete(cityInput, { types: ['(cities)'] });
+            }
+        });
+
+        // 2. Razorpay API Payment Handler
+        function handleRegistration(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const amountInPaise = document.getElementById('pass_tier').value;
+
+            // Replace with your actual Razorpay Key ID from your dashboard
+            const RAZORPAY_KEY_ID = "rzp_test_YOUR_KEY_HERE"; 
+
+            const options = {
+                "key": RAZORPAY_KEY_ID,
+                "amount": amountInPaise,
+                "currency": "INR",
+                "name": "MixVerse Audio Academy",
+                "description": "Mixing Secrets Decoded Pass",
+                "handler": function (response) {
+                    alert("Registration & Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
+                },
+                "prefill": {
+                    "name": name,
+                    "email": email,
+                    "contact": phone
+                },
+                "theme": {
+                    "color": "#00e5ff"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.on('payment.failed', function (response) {
+                alert("Payment Failed: " + response.error.description);
+            });
+
+            rzp.open();
+        }
+    </script>
 </body>
 </html>
