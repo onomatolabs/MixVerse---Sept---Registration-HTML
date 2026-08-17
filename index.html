@@ -3,204 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MixVerse — Mixing Secrets Decoded | Live Sound Workshop</title>
-    <link rel="stylesheet" href="style.css">
+    <title>MixVerse Registration | Mixing Secrets Decoded</title>
+    <link rel="stylesheet" href="form-style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Navigation Header -->
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="sponsor-tag">
-                PRESENTED BY <span class="sponsor-highlight">ONOMATO LABS</span>
-            </div>
-            <nav class="nav-links">
-                <a href="#about">About</a>
-                <a href="#curriculum">Curriculum</a>
-                <a href="#pricing">Tickets</a>
-                <a href="#register" class="btn btn-outline-sm">Register</a>
-            </nav>
+    <section class="form-container">
+        <div class="form-header">
+            <div class="sponsor-tag">PRESENTED BY <span class="highlight">ONOMATO LABS</span></div>
+            <h1 class="form-title">MIXVERSE REGISTRATION</h1>
+            <p class="form-subtitle">Mixing Secrets Decoded — Live Sound Masterclass</p>
         </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container hero-content">
-            <div class="brand-badge">LIVE SOUND MASTERCLASS</div>
-            <h1 class="hero-title">MIXVERSE</h1>
-            <p class="hero-tagline">MIXING SECRETS DECODED</p>
-            <p class="hero-description">
-                Master flagship digital consoles, dynamic processing, and system optimization from tour-tested veteran live sound engineers.
-            </p>
-            <div class="hero-actions">
-                <a href="#pricing" class="btn btn-primary">Reserve Your Seat</a>
-                <a href="#curriculum" class="btn btn-secondary">View 3-Day Agenda</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Topics / Overview -->
-    <section id="about" class="topics-section">
-        <div class="container">
-            <h2 class="section-title">CORE CURRICULUM</h2>
-            <div class="grid grid-4">
-                <div class="card topic-card">
-                    <div class="card-icon">01</div>
-                    <h3>Signal Flow & Gain Staging</h3>
-                    <p>Digital conversion, headroom management (dBFS vs. dBu), and proper channel gain structure across flagship consoles.</p>
-                </div>
-                <div class="card topic-card">
-                    <div class="card-icon">02</div>
-                    <h3>Channel Shaping & Dynamic Control</h3>
-                    <p>HPF strategies, frequency carving, dynamic EQ, and frequency-conscious gating for high-SPL environments.</p>
-                </div>
-                <div class="card topic-card">
-                    <div class="card-icon">03</div>
-                    <h3>Advanced Processing & Plugins</h3>
-                    <p>Subgrouping, DCAs, parallel compression, Waves SoundGrid integration, and latency management.</p>
-                </div>
-                <div class="card topic-card">
-                    <div class="card-icon">04</div>
-                    <h3>Immersive IEMs & Spatial FX</h3>
-                    <p>KLANG 360-degree binaural positioning, Haas delay time-alignment, and multi-track virtual soundcheck.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3-Day Schedule Breakdown -->
-    <section id="curriculum" class="schedule-section">
-        <div class="container">
-            <h2 class="section-title">3-DAY WORKSHOP AGENDA</h2>
-            <div class="schedule-grid">
+        <form id="mixverse-registration" action="#" method="POST" class="registration-form">
+            
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h2 class="section-label">01. Personal Details</h2>
                 
-                <!-- Day 1 -->
-                <div class="day-card">
-                    <div class="day-header">
-                        <span class="day-label">DAY 1</span>
-                        <h3>Flagship Console Architecture</h3>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="fullname">Full Name *</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="John Doe" required>
                     </div>
-                    <ul class="session-list">
-                        <li>
-                            <span class="session-time">11:00 AM - 01:30 PM</span>
-                            <strong>Digital Gain Staging & Flagship Workflows</strong>
-                            <p>Headroom management (-18 dBFS targets) and channel routing on DiGiCo, Yamaha, Allen & Heath, and Avid consoles.</p>
-                        </li>
-                        <li>
-                            <span class="session-time">02:30 PM - 06:00 PM</span>
-                            <strong>Channel Shaping & Subtractive EQ</strong>
-                            <p>Clearing sub-bass clutter, frequency carving, and attack/release tuning on dynamic processors.</p>
-                        </li>
-                    </ul>
+
+                    <div class="input-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="john@domain.com" required>
+                    </div>
                 </div>
 
-                <!-- Day 2 -->
-                <div class="day-card">
-                    <div class="day-header">
-                        <span class="day-label">DAY 2</span>
-                        <h3>Advanced FOH Processing & Plugins</h3>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="phone">Phone / WhatsApp Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required>
                     </div>
-                    <ul class="session-list">
-                        <li>
-                            <span class="session-time">11:00 AM - 01:30 PM</span>
-                            <strong>Subgroups, DCAs & Sidechain Ducking</strong>
-                            <p>Parallel drum compression, DCA vs Group management, and frequency-selective sidechain ducking.</p>
-                        </li>
-                        <li>
-                            <span class="session-time">02:30 PM - 06:00 PM</span>
-                            <strong>Waves Integration & Arena FOH Strategy</strong>
-                            <p>SuperRack buffer optimization, primary source enhancers, and guest tour engineer Q&A.</p>
-                        </li>
-                    </ul>
-                </div>
 
-                <!-- Day 3 -->
-                <div class="day-card">
-                    <div class="day-header">
-                        <span class="day-label">DAY 3</span>
-                        <h3>Immersive Monitors & Spatial FX</h3>
+                    <div class="input-group">
+                        <label for="city">City / Base Location *</label>
+                        <input type="text" id="city" name="city" placeholder="e.g. Ahmedabad, Mumbai" required>
                     </div>
-                    <ul class="session-list">
-                        <li>
-                            <span class="session-time">11:00 AM - 01:30 PM</span>
-                            <strong>In-Ear Monitors & KLANG Technology</strong>
-                            <p>Reducing ear fatigue, 360-degree binaural positioning, and Dante integration.</p>
-                        </li>
-                        <li>
-                            <span class="session-time">02:30 PM - 06:00 PM</span>
-                            <strong>Hot-Seat Hands-On Mixing Session</strong>
-                            <p>Virtual soundcheck multi-track mixing with real-time mentor feedback on live console setups.</p>
-                        </li>
-                    </ul>
                 </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- Pricing / Registration Tiers -->
-    <section id="pricing" class="pricing-section">
-        <div class="container">
-            <h2 class="section-title">RESERVE YOUR PASS</h2>
-            <div class="pricing-grid">
-                
-                <div class="card pricing-card">
-                    <div class="pricing-header">
-                        <h3>Early Bird Pass</h3>
-                        <div class="price">₹22,500</div>
-                        <span class="tier-limit">Limited to first 5 seats</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>Full 3-Day Live Masterclass Access</li>
-                        <li>Console Hands-On Hot-Seat Access</li>
-                        <li>MixVerse Official Workbook & Cheat Sheets</li>
-                        <li>Goodies & Welcome Kit</li>
-                    </ul>
-                    <a href="#register" class="btn btn-secondary full-width">Claim Early Bird</a>
+            <!-- Qualification & Technical Background -->
+            <div class="form-section">
+                <h2 class="section-label">02. Audio Background & Experience</h2>
+
+                <!-- Current Role Dropdown -->
+                <div class="input-group">
+                    <label for="role">Current Primary Role *</label>
+                    <select id="role" name="role" required>
+                        <option value="" disabled selected>Select your current profile...</option>
+                        <option value="freelance-mix-engineer">Freelance Mix Engineer (FOH/Monitors)</option>
+                        <option value="system-tech">System Engineer / System Tech</option>
+                        <option value="rental-staff">Rental Company Staff / Crew</option>
+                        <option value="audio-student">Audio Student / Aspirant</option>
+                        <option value="studio-engineer">Studio Engineer transitioning to Live</option>
+                    </select>
                 </div>
 
-                <div class="card pricing-card featured">
-                    <div class="featured-badge">MOST POPULAR</div>
-                    <div class="pricing-header">
-                        <h3>Standard Pass</h3>
-                        <div class="price">₹25,000</div>
-                        <span class="tier-limit">General Admission</span>
+                <!-- Console Checkboxes -->
+                <div class="input-group">
+                    <label>Primary Console Ecosystem(s) Used *</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="consoles" value="DiGiCo">
+                            <span>DiGiCo</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="consoles" value="Yamaha">
+                            <span>Yamaha (CL/QL/RIVAGE)</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="consoles" value="Allen & Heath">
+                            <span>Allen & Heath (SQ/dLive)</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="consoles" value="Avid">
+                            <span>Avid (VENUE/S6L)</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="consoles" value="Waves LV1">
+                            <span>Waves LV1 / SuperRack</span>
+                        </label>
+                        <label class="checkbox-card">
+                            <input type="checkbox" name="consoles" value="Analog/Compact Digital">
+                            <span>Compact Digital / Analog</span>
+                        </label>
                     </div>
-                    <ul class="pricing-features">
-                        <li>Full 3-Day Live Masterclass Access</li>
-                        <li>Console Hands-On Hot-Seat Access</li>
-                        <li>MixVerse Official Workbook & Cheat Sheets</li>
-                        <li>Goodies & Welcome Kit</li>
-                        <li>Certificate of Completion</li>
-                    </ul>
-                    <a href="#register" class="btn btn-primary full-width">Register Now</a>
                 </div>
 
-            </div>
-        </div>
-    </section>
+                <!-- IEM / Immersive Experience Radio -->
+                <div class="input-group">
+                    <label>Have you mixed on In-Ear Monitors (IEMs) or Immersive Systems (e.g. KLANG)? *</label>
+                    <div class="radio-group">
+                        <label class="radio-card">
+                            <input type="radio" name="iem_experience" value="Yes" required>
+                            <span>Yes, extensively</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="iem_experience" value="Basic">
+                            <span>Basic knowledge / Limited exposure</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="iem_experience" value="No">
+                            <span>No, looking to learn</span>
+                        </label>
+                    </div>
+                </div>
 
-    <!-- Registration CTA Block -->
-    <section id="register" class="cta-section">
-        <div class="container cta-box">
-            <h2>Ready to Decode Live Mixing?</h2>
-            <p>Join us for 3 days of intensive, hands-on live sound reinforcement training.</p>
-            <div class="cta-actions">
-                <a href="https://forms.google.com" target="_blank" class="btn btn-primary btn-large">Open Registration Form</a>
-            </div>
-        </div>
-    </section>
+                <!-- Pass Tier Selection -->
+                <div class="input-group">
+                    <label for="pass_tier">Select Ticket Tier *</label>
+                    <select id="pass_tier" name="pass_tier" required>
+                        <option value="early_bird">Early Bird Pass — ₹22,500 (Limited Seats)</option>
+                        <option value="standard">Standard Delegate Pass — ₹25,000</option>
+                    </select>
+                </div>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container footer-container">
-            <p>&copy; 2026 MixVerse Audio Academy. Sponsored by <strong>ONOMATO LABS</strong>.</p>
-            <p class="footer-sub">Live Sound Reinforcement | FOH & Monitor Engineering Masterclass</p>
-        </div>
-    </footer>
+                <!-- Primary Goal Textarea -->
+                <div class="input-group">
+                    <label for="goals">Primary Goal for Attending *</label>
+                    <textarea id="goals" name="goals" rows="4" placeholder="What specific mix challenge or console workflow do you want to master during this workshop?" required></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Action -->
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Proceed to Secure Checkout</button>
+                <p class="security-note">🔒 Payments handled securely via Razorpay API.</p>
+            </div>
+
+        </form>
+    </section>
 
 </body>
 </html>
