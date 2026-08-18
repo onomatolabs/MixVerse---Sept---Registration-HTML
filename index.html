@@ -241,6 +241,8 @@
       box-shadow: none;
     }
   </style>
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
@@ -265,7 +267,7 @@
     </div>
     <div class="info-row">
       <span class="info-label">Pass Fee:</span>
-      <span class="info-value">₹15,999 + 18% GST (Total: ₹18,878)</span>
+      <span class="info-value">₹15,999 + 18% GST (Total: ₹18,878.82)</span>
     </div>
   </div>
 
@@ -290,7 +292,17 @@
       </div>
       <div class="form-group">
         <label>Phone Number (WhatsApp) <span class="req">*</span></label>
-        <input type="tel" id="attendeePhone" required placeholder="+91 9876543210">
+        <!-- 10-Digit Restrictions Enforced Here -->
+        <input 
+          type="tel" 
+          id="attendeePhone" 
+          required 
+          placeholder="10-digit mobile number" 
+          pattern="[0-9]{10}" 
+          maxlength="10" 
+          minlength="10" 
+          title="Please enter a valid 10-digit mobile number"
+        >
       </div>
     </div>
     <div class="grid-2">
@@ -416,77 +428,120 @@
       <label for="dataConsent">I consent to the processing of my submitted data for event registration, seat allocation, and workshop communications. <span class="req">*</span></label>
     </div>
 
-    <button type="button" id="submitBtn" class="submit-btn" onclick="executeRegistration()">Register & Submit</button>
+    <button type="button" id="submitBtn" class="submit-btn" onclick="executeRegistration()">Proceed to Checkout</button>
   </form>
 </div>
 
 <script>
-  // CONFIGURATION CONSTANT
-  // Replace this placeholder with your deployed Google Apps Script Web App URL
+  // CONFIGURATION CONSTANTS
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAMfry9O3cVXfJ9nPMBkxPGO_NTrRlZWrUzEh3zwkoufrQ8c-FFApARm3wjnUDJHNzXA/exec";
+  const RAZORPAY_KEY_ID   = "Yrzp_live_XXyq3q864CLfdB"; // Replace with rzp_live_... for production or rzp_test_... for testing
+
+  // PRICING MODE CONFIGURATION
+  // Set IS_TEST_MODE = true for a ₹100 test transaction.
+  // Set IS_TEST_MODE = false for production (₹15,999 + 18% GST = ₹18,878.82).
+  const IS_TEST_MODE = false; 
+
+  const PAYMENT_AMOUNT_PAISE = IS_TEST_MODE ? "10000" : "1887882"; // 10000 paise = ₹100 | 1887882 paise = ₹18,878.82
 
   function executeRegistration() {
     const form = document.getElementById('masterclassForm');
     const submitBtn = document.getElementById('submitBtn');
-    
-    // Form field validation check
+    const phoneInput = document.getElementById('attendeePhone').value.trim();
+
+    // 1. Native HTML5 Validation
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
-    // Disable button to prevent duplicate submissions
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting...";
+    // 2. Strict 10-Digit Mobile Number Validation (Regex Guard)
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phoneInput)) {
+      alert("Please enter a valid 10-digit mobile number (numbers only, without spaces or +91).");
+      document.getElementById('attendeePhone').focus();
+      return;
+    }
 
-    const discipline = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
+    const attendeeFirstName = document.getElementById('attendeeFirstName').value;
+    const attendeeLastName  = document.getElementById('attendeeLastName').value;
+    const attendeeEmail     = document.getElementById('attendeeEmail').value;
+    const discipline        = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
 
-    // Build the data payload for Google Sheets
-    const payload = {
-      timestamp: new Date().toISOString(),
-      attendee_first_name: document.getElementById('attendeeFirstName').value,
-      attendee_last_name: document.getElementById('attendeeLastName').value,
-      attendee_email: document.getElementById('attendeeEmail').value,
-      attendee_phone: document.getElementById('attendeePhone').value,
-      company: document.getElementById('company').value,
-      designation: document.getElementById('designation').value,
-      tshirt_size: document.getElementById('tshirtSize').value,
-      experience_level: document.getElementById('experienceLevel').value,
-      discipline: discipline,
-      source: document.getElementById('source').value,
-      motivation: document.getElementById('motivation').value,
-      favorite_console: document.getElementById('favoriteConsole').value,
-      requested_topics: document.getElementById('requestedTopics').value,
-      featured_gear: document.getElementById('featuredGear').value,
-      favorite_artist: document.getElementById('favoriteArtist').value,
-      current_roster: document.getElementById('currentRoster').value,
-      billing_name: document.getElementById('billingName').value,
-      billing_address_1: document.getElementById('billingAddress1').value,
-      billing_address_2: document.getElementById('billingAddress2').value,
-      billing_city: document.getElementById('billingCity').value,
-      billing_state: document.getElementById('billingState').value,
-      billing_zip: document.getElementById('billingZip').value,
-      billing_country: document.getElementById('billingCountry').value
+    // 3. Razorpay Checkout Configuration
+    const options = {
+      "key": RAZORPAY_KEY_ID,
+      "amount": PAYMENT_AMOUNT_PAISE,
+      "currency": "INR",
+      "name": "MixVerse",
+      "description": "Live Sound Mixing Masterclass (Sept 7-9)",
+      "handler": function (response) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Logging Data...";
+
+        // Payload sent to Google Sheets upon successful payment capture
+        const payload = {
+          timestamp: new Date().toISOString(),
+          payment_id: response.razorpay_payment_id,
+          attendee_first_name: attendeeFirstName,
+          attendee_last_name: attendeeLastName,
+          attendee_email: attendeeEmail,
+          attendee_phone: phoneInput,
+          company: document.getElementById('company').value,
+          designation: document.getElementById('designation').value,
+          tshirt_size: document.getElementById('tshirtSize').value,
+          experience_level: document.getElementById('experienceLevel').value,
+          discipline: discipline,
+          source: document.getElementById('source').value,
+          motivation: document.getElementById('motivation').value,
+          favorite_console: document.getElementById('favoriteConsole').value,
+          requested_topics: document.getElementById('requestedTopics').value,
+          featured_gear: document.getElementById('featuredGear').value,
+          favorite_artist: document.getElementById('favoriteArtist').value,
+          current_roster: document.getElementById('currentRoster').value,
+          billing_name: document.getElementById('billingName').value,
+          billing_address_1: document.getElementById('billingAddress1').value,
+          billing_address_2: document.getElementById('billingAddress2').value,
+          billing_city: document.getElementById('billingCity').value,
+          billing_state: document.getElementById('billingState').value,
+          billing_zip: document.getElementById('billingZip').value,
+          billing_country: document.getElementById('billingCountry').value,
+          amount_paid: parseInt(PAYMENT_AMOUNT_PAISE) / 100,
+          status: "Captured"
+        };
+
+        // Post data to Google Apps Script Web App
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+        .then(() => {
+          alert("Registration Successful!\n\nPayment ID: " + response.razorpay_payment_id + "\nYour seat for MixVerse Masterclass in Ahmedabad is confirmed.");
+          form.reset();
+        })
+        .catch(err => {
+          console.error("Data Logging Error:", err);
+          alert("Payment verified successfully, but logging failed. Please save your Payment ID: " + response.razorpay_payment_id);
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Proceed to Checkout";
+        });
+      },
+      "prefill": {
+        "name": attendeeFirstName + " " + attendeeLastName,
+        "email": attendeeEmail,
+        "contact": phoneInput
+      },
+      "theme": {
+        "color": "#00E5FF"
+      }
     };
 
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-    .then(() => {
-      alert("Registration Successful!\n\nYour details have been logged. We will contact you as soon as possible, Have a great day!");
-      form.reset();
-    })
-    .catch(err => {
-      console.error("Submission Error:", err);
-      alert("Submission error encountered. Please check your connection and try again.");
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.innerText = "Register & Submit";
-    });
+    const rzp = new Razorpay(options);
+    rzp.open();
   }
 </script>
 
