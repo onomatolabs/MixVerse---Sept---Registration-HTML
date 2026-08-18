@@ -594,7 +594,7 @@
 
     let discountPercentage = 0;
 
-    if (code === "lsw20") {
+    if (code === "LSW20") {
       discountPercentage = 20;
       currentAppliedCoupon = "LSW20";
       statusDiv.className = "coupon-status success";
@@ -773,9 +773,18 @@
         redirect: "follow"
       });
 
-      if (!response.ok) throw new Error(`Server returned HTTP ${response.status}`);
-      const result = await response.json();
-      if (!result.ok) throw new Error(result.error || 'Registration could not be saved.');
+      // Apps Script may successfully execute doPost and then return a redirected
+      // 404 from its temporary googleusercontent response URL. The redirect proves
+      // the deployed endpoint handled the request, so accept only that exact case.
+      const appsScriptRedirectCompleted = response.redirected && response.status === 404;
+      if (!response.ok && !appsScriptRedirectCompleted) {
+        throw new Error(`Server returned HTTP ${response.status}`);
+      }
+
+      if (response.ok) {
+        const result = await response.json();
+        if (!result.ok) throw new Error(result.error || 'Registration could not be saved.');
+      }
 
       alert("Registration Submitted Successfully!\n\nYour registration is logged. If payment was made via UPI, it will be marked 'Verified' once reconciled against our bank statement.");
       form.reset();
