@@ -14,6 +14,7 @@
       --text-main: #F8FAFC;
       --text-sub: #94A3B8;
       --border-color: #2A3241;
+      --success-green: #10B981;
     }
 
     * {
@@ -92,7 +93,7 @@
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 0.5px;
-      min-width: 80px;
+      min-width: 90px;
     }
 
     .info-value {
@@ -153,6 +154,7 @@
     input[type="text"],
     input[type="email"],
     input[type="tel"],
+    input[type="file"],
     select,
     textarea {
       width: 100%;
@@ -199,6 +201,92 @@
       cursor: pointer;
     }
 
+    /* Coupon Box Styling */
+    .coupon-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .coupon-btn {
+      background-color: var(--accent-cyan);
+      color: #0B0E14;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      padding: 0 20px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 13px;
+      transition: background-color 0.2s;
+    }
+
+    .coupon-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .coupon-status {
+      font-size: 12px;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .coupon-status.success { color: var(--success-green); }
+    .coupon-status.error { color: #EF4444; }
+
+    /* Price Breakdown Summary */
+    .price-summary-card {
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 20px 0;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    .price-row.discount { color: var(--success-green); }
+    .price-row.total {
+      border-top: 1px dashed var(--border-color);
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    /* UPI QR Box Section */
+    .upi-payment-section {
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .qr-image {
+      max-width: 220px;
+      width: 100%;
+      border-radius: 8px;
+      border: 4px solid #FFFFFF;
+      margin: 16px 0;
+    }
+
+    .upi-id-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      word-break: break-all;
+    }
+
     .checkbox-container {
       display: flex;
       align-items: flex-start;
@@ -241,8 +329,6 @@
       box-shadow: none;
     }
   </style>
-  <!-- Razorpay Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
@@ -266,8 +352,8 @@
       </span>
     </div>
     <div class="info-row">
-      <span class="info-label">Pass Fee:</span>
-      <span class="info-value">₹15,999 + 18% GST (Total: ₹18,878.82)</span>
+      <span class="info-label">Standard Fee:</span>
+      <span class="info-value">₹15,999</span>
     </div>
   </div>
 
@@ -292,7 +378,6 @@
       </div>
       <div class="form-group">
         <label>Phone Number (WhatsApp) <span class="req">*</span></label>
-        <!-- 10-Digit Restrictions Enforced Here -->
         <input 
           type="tel" 
           id="attendeePhone" 
@@ -314,19 +399,6 @@
         <label>Designation / Role</label>
         <input type="text" id="designation" placeholder="e.g. FOH Engineer / System Tech">
       </div>
-    </div>
-
-    <div class="form-group">
-      <label>T-Shirt Size Requirement <span class="req">*</span></label>
-      <select id="tshirtSize" required>
-        <option value="" disabled selected>Select your T-Shirt size...</option>
-        <option value="S">Small (S)</option>
-        <option value="M">Medium (M)</option>
-        <option value="L">Large (L)</option>
-        <option value="XL">Extra Large (XL)</option>
-        <option value="2XL">Double Extra Large (2XL)</option>
-        <option value="3XL">Triple Extra Large (3XL)</option>
-      </select>
     </div>
 
     <!-- TECHNICAL QUESTIONNAIRE -->
@@ -391,8 +463,8 @@
     <!-- BILLING ADDRESS -->
     <div class="section-header">Billing Address</div>
     <div class="form-group">
-      <label>Full Name / Company Name (for Invoice) <span class="req">*</span></label>
-      <input type="text" id="billingName" required placeholder="Name as required on tax invoice">
+      <label>Full Name / Company Name <span class="req">*</span></label>
+      <input type="text" id="billingName" required placeholder="Full name or company name">
     </div>
     <div class="form-group">
       <label>Address Line 1 <span class="req">*</span></label>
@@ -423,125 +495,252 @@
       </div>
     </div>
 
+    <!-- COUPON CODE SECTION -->
+    <div class="section-header">Promotions & Fee Breakdown</div>
+    <div class="form-group">
+      <label>Coupon Code</label>
+      <div class="coupon-container">
+        <input type="text" id="couponCode" placeholder="Enter coupon code (e.g. LSW25)">
+        <button type="button" class="coupon-btn" onclick="applyDiscount()">Apply</button>
+      </div>
+      <div id="couponStatus" class="coupon-status"></div>
+    </div>
+
+    <!-- CALCULATION BREAKDOWN -->
+    <div class="price-summary-card">
+      <div class="price-row">
+        <span>Base Registration Pass:</span>
+        <span id="dispBasePrice">₹15,999.00</span>
+      </div>
+      <div class="price-row discount" id="dispDiscountRow" style="display: none;">
+        <span>Applied Discount:</span>
+        <span id="dispDiscountVal">-₹0.00</span>
+      </div>
+      <div class="price-row total">
+        <span>Total Payable Amount:</span>
+        <span id="dispTotalPrice" style="color: var(--accent-cyan);">₹15,999.00</span>
+      </div>
+    </div>
+
+    <!-- UPI PAYMENT & SCREENSHOT VERIFICATION SECTION -->
+    <div id="paymentContainer" class="upi-payment-section">
+      <div style="font-size: 15px; font-weight: 700; text-transform: uppercase; color: var(--text-main);">
+        Scan & Pay via Any UPI App
+      </div>
+      <p style="font-size: 13px; color: var(--text-sub); margin-top: 4px;">
+        GPay, PhonePe, Paytm, CRED, BHIM
+      </p>
+
+      <img src="Shane UPI QR.jpg" alt="MixVerse UPI QR Code" class="qr-image">
+
+      <div class="upi-id-text">UPI ID: shanemacwan@okhdfcbank</div>
+
+      <div class="form-group" style="text-align: left;">
+        <label>12-Digit UPI Transaction / UTR / Ref ID <span class="req">*</span></label>
+        <input 
+          type="text" 
+          id="utrNumber" 
+          placeholder="e.g. 423456789012" 
+          pattern="[0-9]{12}" 
+          maxlength="12" 
+          minlength="12"
+          title="Please enter a valid 12-digit UTR/Ref number"
+        >
+      </div>
+
+      <div class="form-group" style="text-align: left; margin-bottom: 0;">
+        <label>Upload Payment Receipt / Screenshot <span class="req">*</span></label>
+        <input type="file" id="screenshotFile" accept="image/*">
+      </div>
+    </div>
+
     <div class="checkbox-container">
       <input type="checkbox" id="dataConsent" required>
       <label for="dataConsent">I consent to the processing of my submitted data for event registration, seat allocation, and workshop communications. <span class="req">*</span></label>
     </div>
 
-    <button type="button" id="submitBtn" class="submit-btn" onclick="executeRegistration()">Proceed to Checkout</button>
+    <button type="button" id="submitBtn" class="submit-btn" onclick="executeRegistration()">Submit Registration</button>
   </form>
 </div>
 
 <script>
-  // CONFIGURATION CONSTANTS
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAMfry9O3cVXfJ9nPMBkxPGO_NTrRlZWrUzEh3zwkoufrQ8c-FFApARm3wjnUDJHNzXA/exec";
-  const RAZORPAY_KEY_ID   = "rzp_live_TR6K8tulLkAITw"; // Replace with rzp_live_... for production or rzp_test_... for testing
+  // CONFIGURATION CONSTANT
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlen6LAcE8JqnqZohDNWh5Nwoptkn3Ru89zqgGcPV5OGFhzzUQGR_L1JEY93WwPv_CWQ/exec";
 
-  // PRICING MODE CONFIGURATION
-  // Set IS_TEST_MODE = true for a ₹100 test transaction.
-  // Set IS_TEST_MODE = false for production (₹15,999 + 18% GST = ₹18,878.82).
-  const IS_TEST_MODE = false; 
+  // Base Pricing Constants
+  const BASE_PRICE = 15999.00;
 
-  const PAYMENT_AMOUNT_PAISE = IS_TEST_MODE ? "10000" : "1887882"; // 10000 paise = ₹100 | 1887882 paise = ₹18,878.82
+  let currentAppliedCoupon = "NONE";
+  let activeTotalAmount = BASE_PRICE;
+
+  function applyDiscount() {
+    const code = document.getElementById('couponCode').value.trim();
+    const statusDiv = document.getElementById('couponStatus');
+
+    let discountPercentage = 0;
+
+    if (code === "LSW25") {
+      discountPercentage = 25;
+      currentAppliedCoupon = "LSW25";
+      statusDiv.className = "coupon-status success";
+      statusDiv.innerText = "Coupon LSW25 Applied! (25% Discount)";
+    } else if (code.toLowerCase() === "mixversefree") {
+      discountPercentage = 100;
+      currentAppliedCoupon = "mixversefree";
+      statusDiv.className = "coupon-status success";
+      statusDiv.innerText = "Coupon mixversefree Applied! (100% Free Pass)";
+    } else {
+      currentAppliedCoupon = "NONE";
+      statusDiv.className = "coupon-status error";
+      statusDiv.innerText = "Invalid Coupon Code.";
+      recalculateTotals(0);
+      return;
+    }
+
+    recalculateTotals(discountPercentage);
+  }
+
+  function recalculateTotals(discountPercentage) {
+    const discountRow = document.getElementById('dispDiscountRow');
+    const paymentContainer = document.getElementById('paymentContainer');
+
+    const discountValue = (BASE_PRICE * discountPercentage) / 100;
+    activeTotalAmount = BASE_PRICE - discountValue;
+
+    // Display UI Updates
+    document.getElementById('dispBasePrice').innerText = "₹" + BASE_PRICE.toFixed(2);
+    
+    if (discountPercentage > 0) {
+      discountRow.style.display = "flex";
+      document.getElementById('dispDiscountVal').innerText = "-₹" + discountValue.toFixed(2);
+    } else {
+      discountRow.style.display = "none";
+    }
+
+    document.getElementById('dispTotalPrice').innerText = "₹" + activeTotalAmount.toFixed(2);
+
+    // If 100% discount, bypass UPI payment required inputs
+    if (discountPercentage === 100) {
+      paymentContainer.style.display = "none";
+      document.getElementById('utrNumber').required = false;
+      document.getElementById('screenshotFile').required = false;
+    } else {
+      paymentContainer.style.display = "block";
+      document.getElementById('utrNumber').required = true;
+      document.getElementById('screenshotFile').required = true;
+    }
+  }
 
   function executeRegistration() {
     const form = document.getElementById('masterclassForm');
     const submitBtn = document.getElementById('submitBtn');
     const phoneInput = document.getElementById('attendeePhone').value.trim();
 
-    // 1. Native HTML5 Validation
+    // 1. Native HTML5 Form Check
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
-    // 2. Strict 10-Digit Mobile Number Validation (Regex Guard)
+    // 2. Strict 10-Digit Mobile Check
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phoneInput)) {
-      alert("Please enter a valid 10-digit mobile number (numbers only, without spaces or +91).");
+      alert("Please enter a valid 10-digit phone number.");
       document.getElementById('attendeePhone').focus();
       return;
     }
 
-    const attendeeFirstName = document.getElementById('attendeeFirstName').value;
-    const attendeeLastName  = document.getElementById('attendeeLastName').value;
-    const attendeeEmail     = document.getElementById('attendeeEmail').value;
-    const discipline        = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
+    // 3. UTR & File Upload Validation (Only if payment is required)
+    const utrInput = document.getElementById('utrNumber').value.trim();
+    const fileInput = document.getElementById('screenshotFile');
 
-    // 3. Razorpay Checkout Configuration
-    const options = {
-      "key": RAZORPAY_KEY_ID,
-      "amount": PAYMENT_AMOUNT_PAISE,
-      "currency": "INR",
-      "name": "MixVerse",
-      "description": "Live Sound Mixing Masterclass (Sept 7-9)",
-      "handler": function (response) {
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Logging Data...";
-
-        // Payload sent to Google Sheets upon successful payment capture
-        const payload = {
-          timestamp: new Date().toISOString(),
-          payment_id: response.razorpay_payment_id,
-          attendee_first_name: attendeeFirstName,
-          attendee_last_name: attendeeLastName,
-          attendee_email: attendeeEmail,
-          attendee_phone: phoneInput,
-          company: document.getElementById('company').value,
-          designation: document.getElementById('designation').value,
-          tshirt_size: document.getElementById('tshirtSize').value,
-          experience_level: document.getElementById('experienceLevel').value,
-          discipline: discipline,
-          source: document.getElementById('source').value,
-          motivation: document.getElementById('motivation').value,
-          favorite_console: document.getElementById('favoriteConsole').value,
-          requested_topics: document.getElementById('requestedTopics').value,
-          featured_gear: document.getElementById('featuredGear').value,
-          favorite_artist: document.getElementById('favoriteArtist').value,
-          current_roster: document.getElementById('currentRoster').value,
-          billing_name: document.getElementById('billingName').value,
-          billing_address_1: document.getElementById('billingAddress1').value,
-          billing_address_2: document.getElementById('billingAddress2').value,
-          billing_city: document.getElementById('billingCity').value,
-          billing_state: document.getElementById('billingState').value,
-          billing_zip: document.getElementById('billingZip').value,
-          billing_country: document.getElementById('billingCountry').value,
-          amount_paid: parseInt(PAYMENT_AMOUNT_PAISE) / 100,
-          status: "Captured"
-        };
-
-        // Post data to Google Apps Script Web App
-        fetch(GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-        .then(() => {
-          alert("Registration Successful!\n\nPayment ID: " + response.razorpay_payment_id + "\nYour seat for MixVerse Masterclass in Ahmedabad is confirmed.");
-          form.reset();
-        })
-        .catch(err => {
-          console.error("Data Logging Error:", err);
-          alert("Payment verified successfully, but logging failed. Please save your Payment ID: " + response.razorpay_payment_id);
-        })
-        .finally(() => {
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Proceed to Checkout";
-        });
-      },
-      "prefill": {
-        "name": attendeeFirstName + " " + attendeeLastName,
-        "email": attendeeEmail,
-        "contact": phoneInput
-      },
-      "theme": {
-        "color": "#00E5FF"
+    if (currentAppliedCoupon !== "mixversefree") {
+      const utrRegex = /^[0-9]{12}$/;
+      if (!utrRegex.test(utrInput)) {
+        alert("Please enter a valid 12-digit UTR/Transaction Reference Number.");
+        document.getElementById('utrNumber').focus();
+        return;
       }
-    };
 
-    const rzp = new Razorpay(options);
-    rzp.open();
+      if (fileInput.files.length === 0) {
+        alert("Please upload your payment screenshot.");
+        return;
+      }
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting Registration...";
+
+    const discipline = document.querySelector('input[name="discipline"]:checked')?.value || "FOH";
+
+    // Convert file to Base64
+    if (currentAppliedCoupon !== "mixversefree" && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        sendDataToSheet(e.target.result, file.name);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      sendDataToSheet("", "");
+    }
+
+    function sendDataToSheet(base64Data, fileName) {
+      const payload = {
+        timestamp: new Date().toISOString(),
+        attendee_first_name: document.getElementById('attendeeFirstName').value,
+        attendee_last_name: document.getElementById('attendeeLastName').value,
+        attendee_email: document.getElementById('attendeeEmail').value,
+        attendee_phone: phoneInput,
+        company: document.getElementById('company').value,
+        designation: document.getElementById('designation').value,
+        experience_level: document.getElementById('experienceLevel').value,
+        discipline: discipline,
+        source: document.getElementById('source').value,
+        motivation: document.getElementById('motivation').value,
+        favorite_console: document.getElementById('favoriteConsole').value,
+        requested_topics: document.getElementById('requestedTopics').value,
+        featured_gear: document.getElementById('featuredGear').value,
+        favorite_artist: document.getElementById('favoriteArtist').value,
+        current_roster: document.getElementById('currentRoster').value,
+        billing_name: document.getElementById('billingName').value,
+        billing_address_1: document.getElementById('billingAddress1').value,
+        billing_address_2: document.getElementById('billingAddress2').value,
+        billing_city: document.getElementById('billingCity').value,
+        billing_state: document.getElementById('billingState').value,
+        billing_zip: document.getElementById('billingZip').value,
+        billing_country: document.getElementById('billingCountry').value,
+        applied_coupon: currentAppliedCoupon,
+        base_price: BASE_PRICE.toFixed(2),
+        total_amount: activeTotalAmount.toFixed(2),
+        payment_method: currentAppliedCoupon === "mixversefree" ? "100% Discount Waiver" : "UPI QR Code",
+        utr_number: currentAppliedCoupon === "mixversefree" ? "WAIVED" : utrInput,
+        screenshot_base64: base64Data,
+        screenshot_name: fileName,
+        verification_status: currentAppliedCoupon === "mixversefree" ? "Verified (Complimentary)" : "Pending Verification"
+      };
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        alert("Registration Submitted Successfully!\n\nYour registration is logged. If payment was made via UPI, it will be marked 'Verified' once reconciled against our bank statement.");
+        form.reset();
+        recalculateTotals(0);
+      })
+      .catch(err => {
+        console.error("Submission Error:", err);
+        alert("Submission failed. Please check your internet connection and try again.");
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Registration";
+      });
+    }
   }
 </script>
 
