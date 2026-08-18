@@ -500,7 +500,7 @@
     <div class="form-group">
       <label>Coupon Code</label>
       <div class="coupon-container">
-        <input type="text" id="couponCode" placeholder="Enter coupon code (e.g. LSW25)">
+        <input type="text" id="couponCode" placeholder="Enter coupon code">
         <button type="button" class="coupon-btn" onclick="applyDiscount()">Apply</button>
       </div>
       <div id="couponStatus" class="coupon-status"></div>
@@ -584,10 +584,10 @@
     let discountPercentage = 0;
 
     if (code === "LSW25") {
-      discountPercentage = 25;
+      discountPercentage = 20;
       currentAppliedCoupon = "LSW25";
       statusDiv.className = "coupon-status success";
-      statusDiv.innerText = "Coupon LSW25 Applied! (25% Discount)";
+      statusDiv.innerText = "Coupon LSW25 Applied! (20% Discount)";
     } else if (code.toLowerCase() === "mixversefree") {
       discountPercentage = 100;
       currentAppliedCoupon = "mixversefree";
