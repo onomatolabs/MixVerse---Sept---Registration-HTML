@@ -334,7 +334,7 @@
 
 <div class="form-card">
   <div class="header-bar"></div>
-  <p class="brand-subtitle">Onomato Labs presents</p>
+  <p class="brand-subtitle">Onomato Labs presents in association with The Sumba &amp; Malhar Audio Academy</p>
   <h1 class="brand-title">MixVerse: Mixing Secrets Decoded</h1>
   <p class="brand-subtitle">Live Sound Mixing Masterclass</p>
 
@@ -400,6 +400,20 @@
         <label>Designation / Role</label>
         <input type="text" id="designation" placeholder="e.g. FOH Engineer / System Tech">
       </div>
+    </div>
+
+    <div class="form-group">
+      <label>Instagram ID / Handle <span class="req">*</span></label>
+      <input
+        type="text"
+        id="instagramId"
+        required
+        placeholder="@yourusername"
+        pattern="@?[A-Za-z0-9._]{1,30}"
+        maxlength="31"
+        title="Enter a valid Instagram username, with or without @"
+        autocomplete="off"
+      >
     </div>
 
     <!-- TECHNICAL QUESTIONNAIRE -->
@@ -565,19 +579,29 @@
       <label for="dataConsent">I consent to the processing of my submitted data for event registration, seat allocation, and workshop communications. <span class="req">*</span></label>
     </div>
 
+    <div class="checkbox-container">
+      <input type="checkbox" id="socialMediaConsent" required>
+      <label for="socialMediaConsent">I consent to Onomato Labs, The Sumba, and Malhar Audio Academy using my name and Instagram handle to tag or mention me in workshop-related social media content. <span class="req">*</span></label>
+    </div>
+
     <button type="submit" id="submitBtn" class="submit-btn">Submit Registration</button>
   </form>
 </div>
 
 <script>
   // Replace this after deploying Code.gs as a Google Apps Script Web App.
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgCyoBOStsBq-JapNG8_4anvPO3fIuR8gmkx-LhMWI-34tcl85L_i-Bm18IkFKvUI6ow/exec";
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwds2GlnEmmDJPKrZffIuJzPWerSvP5O8ditiqVg6lC62UHY2pYxlQ3zAjSnP49srCfyA/exec";
 
   // Base Pricing Constants
   const BASE_PRICE = 15999.00;
 
   let currentAppliedCoupon = "NONE";
   let activeTotalAmount = BASE_PRICE;
+
+  function isComplimentaryCoupon() {
+    return currentAppliedCoupon.toLowerCase() === "mixversefree" ||
+      currentAppliedCoupon.toUpperCase() === "MAASTUDENT";
+  }
 
   const form = document.getElementById('masterclassForm');
   form.addEventListener('submit', executeRegistration);
@@ -605,6 +629,11 @@
       currentAppliedCoupon = "mixversefree";
       statusDiv.className = "coupon-status success";
       statusDiv.innerText = "Coupon mixversefree Applied! (100% Free Pass)";
+    } else if (code.toUpperCase() === "MAASTUDENT") {
+      discountPercentage = 100;
+      currentAppliedCoupon = "MAASTUDENT";
+      statusDiv.className = "coupon-status success";
+      statusDiv.innerText = "Coupon MAASTUDENT Applied! (100% Student Pass)";
     } else {
       currentAppliedCoupon = "NONE";
       statusDiv.className = "coupon-status error";
@@ -685,6 +714,7 @@
     const fileInput = document.getElementById('screenshotFile');
 
     if (currentAppliedCoupon !== "mixversefree") {
+    if (!isComplimentaryCoupon()) {
       const utrRegex = /^[0-9]{12}$/;
       if (!utrRegex.test(utrInput)) {
         alert("Please enter a valid 12-digit UTR/Transaction Reference Number.");
@@ -721,6 +751,7 @@
 
       // Process uploaded receipt to Base64 if attached
       if (currentAppliedCoupon !== "mixversefree" && fileInput.files.length > 0) {
+      if (!isComplimentaryCoupon() && fileInput.files.length > 0) {
         const file = fileInput.files[0];
         fileName = file.name;
         fileType = file.type;
@@ -734,6 +765,8 @@
         attendee_last_name: document.getElementById('attendeeLastName').value,
         attendee_email: document.getElementById('attendeeEmail').value,
         attendee_phone: phoneInput,
+        instagram_id: document.getElementById('instagramId').value.trim(),
+        social_media_consent: document.getElementById('socialMediaConsent').checked,
         company: document.getElementById('company').value,
         designation: document.getElementById('designation').value,
         experience_level: document.getElementById('experienceLevel').value,
@@ -757,10 +790,13 @@
         total_amount: activeTotalAmount.toFixed(2),
         payment_method: currentAppliedCoupon === "mixversefree" ? "100% Discount Waiver" : "UPI QR Code",
         utr_number: currentAppliedCoupon === "mixversefree" ? "WAIVED" : utrInput,
+        payment_method: isComplimentaryCoupon() ? "100% Discount Waiver" : "UPI QR Code",
+        utr_number: isComplimentaryCoupon() ? "WAIVED" : utrInput,
         receiptBase64: base64Data,
         fileName: fileName,
         fileType: fileType,
         verification_status: currentAppliedCoupon === "mixversefree" ? "Verified (Complimentary)" : "Pending Verification"
+        verification_status: isComplimentaryCoupon() ? "Verified (Complimentary)" : "Pending Verification"
       };
 
       if (GOOGLE_SCRIPT_URL.includes('AKfycbx3_KjBNXbnDHAyQ8WogC8znne7doVxRr8KIqu_crisREgl-9SRTtmjbnozjPl8IBfOxw')) {
