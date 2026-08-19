@@ -713,7 +713,6 @@
     const utrInput = document.getElementById('utrNumber').value.trim();
     const fileInput = document.getElementById('screenshotFile');
 
-    if (currentAppliedCoupon !== "mixversefree") {
     if (!isComplimentaryCoupon()) {
       const utrRegex = /^[0-9]{12}$/;
       if (!utrRegex.test(utrInput)) {
@@ -750,7 +749,6 @@
       let fileType = "";
 
       // Process uploaded receipt to Base64 if attached
-      if (currentAppliedCoupon !== "mixversefree" && fileInput.files.length > 0) {
       if (!isComplimentaryCoupon() && fileInput.files.length > 0) {
         const file = fileInput.files[0];
         fileName = file.name;
@@ -788,14 +786,11 @@
         applied_coupon: currentAppliedCoupon,
         base_price: BASE_PRICE.toFixed(2),
         total_amount: activeTotalAmount.toFixed(2),
-        payment_method: currentAppliedCoupon === "mixversefree" ? "100% Discount Waiver" : "UPI QR Code",
-        utr_number: currentAppliedCoupon === "mixversefree" ? "WAIVED" : utrInput,
         payment_method: isComplimentaryCoupon() ? "100% Discount Waiver" : "UPI QR Code",
         utr_number: isComplimentaryCoupon() ? "WAIVED" : utrInput,
         receiptBase64: base64Data,
         fileName: fileName,
         fileType: fileType,
-        verification_status: currentAppliedCoupon === "mixversefree" ? "Verified (Complimentary)" : "Pending Verification"
         verification_status: isComplimentaryCoupon() ? "Verified (Complimentary)" : "Pending Verification"
       };
 
